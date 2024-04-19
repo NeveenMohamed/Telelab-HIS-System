@@ -5,9 +5,12 @@ const cors = require("cors");
 
 const app = express();
 
+const slotRoute = require("./Appointments/routes/slotRoutes");
+const appointmentRoute = require("./Appointments/routes/appointmentRoutes");
+
 // Connect to database
 const uri =
-  "mongodb+srv://<username>:<password>@cluster0.rcyuxj2.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+  "mongodb+srv://Sherif:12345@telelab.urpw51y.mongodb.net/?retryWrites=true&w=majority&appName=TeleLab";
 const port = 3000;
 
 mongoose
@@ -25,5 +28,5 @@ app.use(express.json());
 app.use(cors());
 
 // Routes
-// app.use("/slots", slotRoute);
-// app.use("/appointments", appointmentRoute);
+app.use("/slots", slotRoute);
+app.use("/appointments", appointmentRoute);
