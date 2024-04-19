@@ -7,6 +7,7 @@ const app = express();
 
 const slotRoute = require("./Appointments/routes/slotRoutes");
 const appointmentRoute = require("./Appointments/routes/appointmentRoutes");
+const userRoute = require("./Registeration/routes/userRoutes");
 
 // Connect to database
 const uri =
@@ -30,3 +31,4 @@ app.use(cors());
 // Routes
 app.use("/slots", slotRoute);
 app.use("/appointments", appointmentRoute);
+app.use("/user", userRoute);
