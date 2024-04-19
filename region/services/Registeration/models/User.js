@@ -11,7 +11,7 @@ const userSchema = mongoose.Schema({
     required: [true, "Please enter the password"],
   },
   role: {
-    type: Boolean,
+    type: String,
     required: [true, "Please enter the role of user"],
   },
   labId: {
