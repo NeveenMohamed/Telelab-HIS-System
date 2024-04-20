@@ -1,8 +1,10 @@
 /* Global Css */
-body{
-  background-color: #008B8B;
-  background-image: url("assets/background1.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-opacity: 0.5;
+body, html{
+background: #008B8B;
+
+
+
+
+
+
 }
