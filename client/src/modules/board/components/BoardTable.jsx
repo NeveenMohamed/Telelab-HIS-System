@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import './BoardTable.css';
 
 const columns = [
     {
@@ -42,7 +43,7 @@ const rows = [
     { id: 9, patientName: 'Roxie Harvey', age: 65, status: 'active'},
 ];
 
-export default function DataTable() {
+const DataTable = () => {
     return (
         <div style={{ height: 400, width: '100%' }}>
             <DataGrid
@@ -55,7 +56,10 @@ export default function DataTable() {
                 }}
                 pageSizeOptions={[5, 10]}
                 checkboxSelection
+                className='table'
             />
         </div>
     );
 }
+
+export default DataTable;
