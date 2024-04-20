@@ -4,6 +4,7 @@ import { Route } from "react-router-dom";
 import ErrorPage from "../components/error-404/ErrorPage";
 import React from "react";
 import LoginPage from "../../modules/login/pages/LoginPage";
+import BoardPage from "../../modules/board/pages/BoardPage";
 
 
 
@@ -20,6 +21,10 @@ class RouterClass {
     {
       path: AppRoutes.Error404,
       element: <ErrorPage/>,
+    },
+    {
+      path: AppRoutes.lab,
+      element: <BoardPage/>,
     },
   ];
 
