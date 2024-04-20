@@ -11,7 +11,7 @@ const userRoute = require("./Registeration/routes/userRoutes");
 
 // Connect to database
 const uri =
-  "mongodb+srv://Sherif:12345@telelab.urpw51y.mongodb.net/Region?retryWrites=true&w=majority&appName=TeleLab";
+  "mongodb+srv://Sherif:12345@telelab.urpw51y.mongodb.net/Central?retryWrites=true&w=majority&appName=TeleLab";
 const port = 3000;
 
 mongoose

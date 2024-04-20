@@ -4,6 +4,8 @@ const SlotController = require("../controllers/slotController");
 
 router.post("/", SlotController.createSlot);
 
+router.get("/", SlotController.getAllSlots);
+
 router.get("/lab/:labId", SlotController.getSlotsByLabID);
 
 router.put("/:slotId", SlotController.updateSlot);

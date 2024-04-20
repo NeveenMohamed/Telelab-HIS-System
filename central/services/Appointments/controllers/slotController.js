@@ -52,6 +52,17 @@ const createSlot = async (req, res) => {
 };
 // ================================================================================= //
 
+const getAllSlots = async (req, res) => {
+  try {
+    const slots = await Slot.find({});
+    res.status(200).json(slots);
+  } catch (error) {
+    res.status(500).json({ message: "No slots found" });
+  }
+};
+
+// ================================================================================= //
+
 const getSlotsByLabID = async (req, res) => {
   try {
     const { labId } = req.params;
@@ -138,6 +149,7 @@ const dateValidation = (date) => {
 
 module.exports = {
   createSlot,
+  getAllSlots,
   getSlotsByLabID,
   updateSlot,
   deleteSlot,
