@@ -24,7 +24,9 @@ const columns = [
         description: 'This column has a value getter and is not sortable.',
         sortable: false,
         width: 160,
-        valueGetter: (value, row) => `${row.status}`,
+        type: 'singleSelect',
+        valueOptions: ['Done', 'In progress', 'Active'],
+//         valueGetter: (value, row) => `${row.status}`,
     },
 ];
 
