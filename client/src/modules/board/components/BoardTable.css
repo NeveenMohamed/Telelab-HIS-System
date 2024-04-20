@@ -1,9 +1,25 @@
+/*
+body{
+    background-color: #008B8B;
+
+}
+*/
 .table{
-    background-color: aqua;
+    background-color: #DCDCDC;
+    height: 100vh;
+    width: 80vw;
+
+}
+
+.table-container{
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    width: 50%;
-
 }
+
+/*
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    style={{ height: 400, width: '100%' }}
+*/

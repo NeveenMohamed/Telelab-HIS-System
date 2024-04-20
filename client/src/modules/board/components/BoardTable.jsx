@@ -45,7 +45,8 @@ const rows = [
 
 const DataTable = () => {
     return (
-        <div style={{ height: 400, width: '100%' }}>
+    <div className='table-container'>
+        <div>
             <DataGrid
                 rows={rows}
                 columns={columns}
@@ -59,7 +60,9 @@ const DataTable = () => {
                 className='table'
             />
         </div>
+    </div>
     );
 }
+
 
 export default DataTable;
