@@ -3,11 +3,9 @@ const Slot = require("../models/Slot");
 const axios = require("axios");
 
 const status = {
-  Booked: 0,
   InProgress: 1,
-  Completed: 2,
+  Done: 2,
 };
-
 const weekDays = {
   0: "Sunday",
   1: "Monday",
@@ -20,9 +18,7 @@ const weekDays = {
 
 const bookAppointment = async (req, res) => {
   try {
-    const slotId = req.body.slotId;
-    const patientId = req.body.patientId;
-    const date = req.body.date;
+    const { slotId, patientId, date, testType } = req.body;
 
     const weekDay = weekDays[new Date(date).getDay()];
 
@@ -66,8 +62,9 @@ const bookAppointment = async (req, res) => {
         doctorId: slot.doctorId,
         clinicId: slot.clinicId,
         date: date,
+        testType: testType,
         time: slot.time,
-        status: status.Booked,
+        status: status.InProgress,
       });
 
       return appointmentCreated;

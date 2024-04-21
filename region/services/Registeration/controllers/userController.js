@@ -2,8 +2,8 @@ const User = require("../models/User"); // Import your Mongoose User model
 const bcrypt = require("bcryptjs");
 
 const roles = {
-  0: "doctor",
-  1: "receptionist",
+  0: "Doctor",
+  1: "Receptionist",
 };
 
 const loginUser = async (req, res) => {

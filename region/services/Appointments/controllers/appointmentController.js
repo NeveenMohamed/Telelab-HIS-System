@@ -3,9 +3,8 @@ const Slot = require("../models/Slot");
 const axios = require("axios");
 
 const status = {
-  Booked: 0,
   InProgress: 1,
-  Completed: 2,
+  Done: 2,
 };
 
 const weekDays = {
