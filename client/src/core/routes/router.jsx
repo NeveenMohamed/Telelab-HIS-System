@@ -25,7 +25,7 @@ class RouterClass {
       element: <ErrorPage/>,
     },
     {
-      path: AppRoutes.lab,
+      path: AppRoutes.appointments,
       element: <BoardPage/>,
     },
     {
