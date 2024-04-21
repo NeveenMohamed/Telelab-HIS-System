@@ -5,6 +5,8 @@ import ErrorPage from "../components/error-404/ErrorPage";
 import React from "react";
 import LoginPage from "../../modules/login/pages/LoginPage";
 import BoardPage from "../../modules/board/pages/BoardPage";
+import ResultPage from "../../modules/result/pages/ResultPage";
+
 
 
 
@@ -25,6 +27,10 @@ class RouterClass {
     {
       path: AppRoutes.lab,
       element: <BoardPage/>,
+    },
+    {
+      path: AppRoutes.result,
+      element: <ResultPage/>,
     },
   ];
 

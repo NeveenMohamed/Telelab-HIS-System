@@ -3,6 +3,7 @@ class AppRoutes {
   static lab = "/lab";
   static Error404 = "*";
   static login = "/login";
+  static result = "/result";
   
 }
 

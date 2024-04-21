@@ -1,10 +1,10 @@
-.table{
+.table {
     background-color: #DCDCDC;
     height: auto;
     width: 80vw;
 }
 
-.table-container{
+.table-container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -18,51 +18,51 @@
     /*#008080*/
 }
 
-.TableRowCss{
-height: 5px;
+.TableRowCss {
+    height: 5px;
 }
 
 
-.buttonCss{
-background-color:#008080;
-color: white;
-border-radius:5px;
-padding: 10px;
+.buttonCss {
+    background-color: #008080;
+    color: white;
+    border-radius: 5px;
+    padding: 10px;
 }
 
 .buttonCss:hover {
-  background-color: #48D1CC;
-  animation: bubble 0.4s ease-out;
-  color: black;
+    background-color: #48D1CC;
+    animation: bubble 0.4s ease-out;
+    color: black;
 }
 
 @keyframes bubble {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.2);
-  }
-  100% {
-    transform: scale(1);
-  }
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
 
-.TableHeadCss{
-    color: red !important;
-    background-color:#191970;
+.TableHeadCss {
+    background-color: #191970 !important;
 }
 
 
-.TableRowHead{
+.TableRowHead {
     text-align: center;
-
 }
 
-.DoneIcon{
-color: #009933;
+.DoneIcon {
+    color: #009933;
 }
 
-.GrInProgressIcon{
-color:  #cc0000;
+.GrInProgressIcon {
+    color: #cc0000;
 }
