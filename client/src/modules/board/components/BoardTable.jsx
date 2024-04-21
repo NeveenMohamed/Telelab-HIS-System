@@ -1,68 +1,75 @@
 import * as React from 'react';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import './BoardTable.css';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import { CiAirportSign1 } from "react-icons/ci";
+import { useEffect, useState } from 'react';
+import axios from '../../../core/api/api';
 
-const columns = [
-    {
-        field: 'id',
-        headerName: 'ID',
-        width: 70
-    },
-    {
-        field: 'patientName',
-        headerName: 'Patient Name',
-        width: 130
-    },
-    {
-        field: 'age',
-        headerName: 'Age',
-        type: 'number',
-        width: 90,
-    },
-    {
-        field: 'status',
-        headerName: 'Status',
-        description: 'This column has a value getter and is not sortable.',
-        sortable: false,
-        width: 160,
-        type: 'singleSelect',
-        valueOptions: ['Done', 'In progress', 'Active'],
-//         valueGetter: (value, row) => `${row.status}`,
-    },
-];
 
-const rows = [
-    { id: 1, patientName: 'Snow Jon', age: 35, status: 'active'},
-    { id: 2, patientName: 'Lannister Cersei', age: 42, status: 'in progress'},
-    { id: 3, patientName: 'Lannister Jaime', age: 45, status: 'active'},
-    { id: 4, patientName: 'Stark Arya', age: 16, status: 'done'},
-    { id: 5, patientName: 'Targaryen Daenerys', age: null, status: 'active'},
-    { id: 6, patientName: 'Melisandre', age: 150, status: 'released'},
-    { id: 7, patientName: 'Clifford Ferrara', age: 44, status: 'active'},
-    { id: 8, patientName: 'Frances Rossini', age: 36, status: 'done'},
-    { id: 9, patientName: 'Roxie Harvey', age: 65, status: 'active'},
-];
 
-const DataTable = () => {
+const BoardTable = () => {
+    function createData(name, status, fat, carbs, protein) {
+        return { name, status, fat, carbs, protein };
+    }
+
+    const patients = [
+        createData('Frozen yoghurt', 1, 6.0, 24, 4.0),
+        createData('Ice cream sandwich', 2, 9.0, 37, 4.3),
+        createData('Eclair', 1, 16.0, 24, 6.0),
+        createData('Cupcake', 3, 3.7, 67, 4.3),
+        createData('Gingerbread', 2, 16.0, 49, 3.9),]
+
+    useEffect(() => {
+        axios.get('/lab').then((response) => {
+            console.log(response)
+            setLabs(response.data)
+        }).catch((error) => {
+            console.log(error)
+        })
+    }, [])
+
+    const [labs, setLabs] = useState()
+        
     return (
-    <div className='table-container'>
-        <div>
-            <DataGrid
-                rows={rows}
-                columns={columns}
-                initialState={{
-                    pagination: {
-                        paginationModel: { page: 0, pageSize: 5 },
-                    },
-                }}
-                pageSizeOptions={[5, 10]}
-                checkboxSelection
-                className='table'
-            />
-        </div>
-    </div>
-    );
+        <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                <TableHead>
+                    <TableRow>
+                        <TableCell>Dessert (100g serving)</TableCell>
+                        <TableCell align="right">status</TableCell>
+                        <TableCell align="right">Fat</TableCell>
+                        <TableCell align="right">Carbs</TableCell>
+                        <TableCell align="right">Protein</TableCell>
+                        <TableCell align="right">Result</TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {patients.map((patient) => (
+                        <TableRow
+                            key={patient.name}
+                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                            <TableCell component="th" scope="row">
+                                {patient.name}
+                            </TableCell>
+                            <TableCell align="right">{patient.status == 1 ? <CiAirportSign1 size={20} /> : patient.status == 2 ? <CiAirportSign1 /> : <CiAirportSign1 />} </TableCell>
+                            <TableCell align="right">{patient.fat}</TableCell>
+                            <TableCell align="right">{patient.carbs}</TableCell>
+                            <TableCell align="right">{patient.protein}</TableCell>
+                            <TableCell align="right">
+                                <button>View Result</button>
+                            </TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
+        </TableContainer>
+    )
 }
 
-
-export default DataTable;
+export default BoardTable
