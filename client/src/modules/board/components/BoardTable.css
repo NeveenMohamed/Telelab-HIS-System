@@ -1,14 +1,7 @@
-/*
-body{
-    background-color: #008B8B;
-
-}
-*/
 .table{
     background-color: #DCDCDC;
-    height: 100vh;
+    height: auto;
     width: 80vw;
-
 }
 
 .table-container{
@@ -18,12 +11,58 @@ body{
     /*background-color: rgba(255, 255, 255, 0.7);*/
     background-color: #ffffff25;
     padding: 50px;
-    border-radius: 10px;
+    border-radius: 15px;
+    height: auto;
+    width: 80%;
+    border: 1px solid #40E0D0;
+    /*#008080*/
 }
 
-/*
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    style={{ height: 400, width: '100%' }}
-*/
+.TableRowCss{
+height: 5px;
+}
+
+
+.buttonCss{
+background-color:#008080;
+color: white;
+border-radius:5px;
+padding: 10px;
+}
+
+.buttonCss:hover {
+  background-color: #48D1CC;
+  animation: bubble 0.4s ease-out;
+  color: black;
+}
+
+@keyframes bubble {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.TableHeadCss{
+    color: red !important;
+    background-color:#191970;
+}
+
+
+.TableRowHead{
+    text-align: center;
+
+}
+
+.DoneIcon{
+color: #009933;
+}
+
+.GrInProgressIcon{
+color:  #cc0000;
+}
