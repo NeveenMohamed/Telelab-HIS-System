@@ -28,15 +28,16 @@ const BoardTable = () => {
         createData('Gingerbread', 2, 2, 49, 30, 0),]
 
     useEffect(() => {
-        axios.get('/appointments').then((response) => {
+        axios.get(`http://localhost:4000/appointments/lab/${1}`).then((response) => {
             console.log(response)
-            setLabs(response.data)
+            const labsData = response.data
+            setLabs(labsData??[])
         }).catch((error) => {
             console.log(error)
         })
     }, [])
 
-    const [labs, setLabs] = useState()
+    const [labs, setLabs] = useState([])
         
     return (
     <div className='table-container'>
@@ -54,7 +55,7 @@ const BoardTable = () => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {patients.map((patient) => (
+                    {labs.map((patient) => (
                         <TableRow className='TableRowCss'
                             key={patient.patientID}
                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}

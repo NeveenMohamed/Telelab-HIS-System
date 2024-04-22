@@ -1,10 +1,10 @@
 const endpoints = {
-    login: '/api/auth/login',
-    register: '/api/auth/register',
-    logout: '/api/auth/logout',
-    user: '/api/auth/user',
-    users: '/api/auth/users',
-    userById: '/api/auth'
+    appointments: '/appointments',
+    register: '/register',
+    logout: '/logout',
+    user: '/user',
+    users: '/users',
+    userById: ''
 };
 
 export default endpoints;
