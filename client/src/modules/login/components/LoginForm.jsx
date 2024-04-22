@@ -1,9 +1,10 @@
 // import React, { useEffect, useState } from 'react'
 import axios from '../../../core/api/api';
 import { useFormik } from 'formik';
+import React from 'react';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import * as Yup from 'yup';
-
+import { useNavigate } from "react-router-dom";
 
 
 const LoginSchema = Yup.object().shape({
@@ -36,9 +37,13 @@ const LoginForm = () => {
     //     }
     // ]
 
+    const navigate = useNavigate();
+
+
     const fire = (values) => {
-        axios.post('/login', values).then((response) => {
-            console.log(response)
+        axios.post('http://localhost:4000/user', values).then((response) => {
+            console.log(response.data)
+            navigate("/appointments");
         }).catch((error) => {
             console.log(error)
         })
@@ -72,8 +77,8 @@ const LoginForm = () => {
             password: '',
         },
         validationSchema: LoginSchema,
-        onSubmit: values => {
-            JSON.stringify(values, null, 2);
+        onSubmit: (values) => {
+            // JSON.stringify(values, null, 2);
             console.log(values)
             fire(values)
         },

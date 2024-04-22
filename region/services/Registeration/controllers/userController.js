@@ -7,11 +7,11 @@ const roles = {
 };
 
 const loginUser = async (req, res) => {
-  const { userName, password } = req.body;
+  const { username, password } = req.body;
 
   try {
-    // Find user by userName
-    const user = await User.findOne({ userName: userName });
+    // Find user by username
+    const user = await User.findOne({ username: username });
 
     if (!user) {
       res.status(401).json({ error: "Invalid credentials" });
@@ -27,7 +27,7 @@ const loginUser = async (req, res) => {
       return;
     }
 
-    res.status(200).json({ data: user });
+    res.status(201).json({ user: user });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
