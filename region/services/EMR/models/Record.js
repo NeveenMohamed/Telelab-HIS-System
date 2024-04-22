@@ -6,10 +6,6 @@ const recordSchema = mongoose.Schema({
     type: String,
     required: [true],
   },
-  doctorId: {
-    type: Number,
-    required: [true, "Please enter the doctor's ID"],
-  },
   labTest: {
     type: labTestSchema,
     required: [true, "Please enter the lab test results"],

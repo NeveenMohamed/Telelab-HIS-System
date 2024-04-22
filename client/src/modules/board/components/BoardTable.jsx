@@ -36,9 +36,8 @@ const BoardTable = () => {
     const navigate = useNavigate();
 
     function navigateReport(id) {
-        console.log(id);
-        localStorage.setItem("appointmentId", JSON.stringify(id));
-        navigate("/result");
+            localStorage.setItem("appointmentId", JSON.stringify(id));
+            navigate("/result");    
     }
 
     return (
@@ -72,8 +71,8 @@ const BoardTable = () => {
                             <TableCell align="center">{appointment.date}</TableCell>
                             <TableCell align="center">{appointment.time}</TableCell>
                             <TableCell align="center">
-                            {userData["user"]["role"] == "Doctor"?
-                                <button key={appointment.patientId} className='buttonCss' onClick={()=>navigateReport(appointment._id)}  >Add Report</button>:<button className='buttonCss' onClick={()=>navigateReport(appointment._id)}>Show Report</button>}
+                            {userData["user"]["role"] == "Doctor" && appointment.status != 2?
+                                <button key={appointment.patientId} className='buttonCss' onClick={()=>navigateReport(appointment._id)} >Add Report</button>:<button className='buttonCss' onClick={()=>navigateReport(appointment._id)}>Show Report</button>}
                             </TableCell>
                         </TableRow>
                     ))}

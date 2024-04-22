@@ -4,16 +4,11 @@ const axios = require("axios");
 // This function will be divided into 2 parts (HL7 message in region + database in center)
 const createRecord = async (req, res) => {
   try {
-    const { appointmentId, patientId, labId, doctorId, labTest, testType } =
-      req.body;
+    const { appointmentId, labTest } = req.body;
 
     // Create the slot only if no conflicts are found
     const newRecord = await Record.create({
       appointmentId,
-      patientId,
-      labId,
-      doctorId,
-      testType,
       labTest,
     });
 

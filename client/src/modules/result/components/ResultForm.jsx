@@ -3,6 +3,7 @@ import { useState,useEffect } from 'react';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import * as Yup from 'yup';
 import axios from '../../../core/api/api';
+import { useNavigate } from 'react-router-dom';
 
 
 const ResultSchema = Yup.object().shape({
@@ -29,6 +30,8 @@ const ResultForm = () => {
         })
     }, [])
 
+    const navigate = useNavigate();
+
     const formik = useFormik({
         initialValues: {
             WBC: "",
@@ -46,7 +49,13 @@ const ResultForm = () => {
             console.log(values)
 
             const id =  JSON.parse(localStorage.getItem("appointmentId"))
-            axios.put(`http://localhost:4000/appointment/${id}`, {"status":2})
+            axios.post(`http://localhost:4000/record/`,{
+                "appointmentId":id,
+                "labTest": values 
+            })
+            axios.put(`http://localhost:4000/appointments/${id}`, {"status":2})
+
+            navigate("/appointments")
         },
     });
 
@@ -60,33 +69,33 @@ const ResultForm = () => {
                         <Form.Control type="number" step="0.01" placeholder=""
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            disabled = {data["user"]["role"] != "Doctor"}
+                            disabled = {data["user"]["role"] != "Doctor" || Object.keys(labTest).length != 0}
                             name='WBC'
-                            value={data["user"]["role"] == "Doctor" ?formik.values.WBC : labTest["WBC"]} />
+                            value={labTest == {} ?formik.values.WBC : labTest["WBC"]} />
 
                         <Form.Label>RBC</Form.Label>
                         <Form.Control type="number" step="0.01" placeholder=""
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            disabled = {data["user"]["role"] != "Doctor"}
+                            disabled = {data["user"]["role"] != "Doctor" || Object.keys(labTest).length != 0}
                             name='RBC'
-                            value={data["user"]["role"] == "Doctor" ?formik.values.RBC : labTest["RBC"]} />
+                            value={labTest == {} ?formik.values.RBC : labTest["RBC"]} />
                             
                         <Form.Label>HGB</Form.Label>
                         <Form.Control type="number" step="0.01" placeholder=""
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            disabled = {data["user"]["role"] != "Doctor"}
+                            disabled = {data["user"]["role"] != "Doctor" || Object.keys(labTest).length != 0}
                             name='HGB'
-                            value={data["user"]["role"] == "Doctor" ?formik.values.HGB : labTest["HGB"]} />
+                            value={labTest == {} ?formik.values.HGB : labTest["HGB"]} />
 
                         <Form.Label>HCT</Form.Label>
                         <Form.Control type="number" step="0.01" placeholder=""
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            disabled = {data["user"]["role"] != "Doctor"}
+                            disabled = {data["user"]["role"] != "Doctor" || Object.keys(labTest).length != 0}
                             name='HCT'
-                            value={data["user"]["role"] == "Doctor" ?formik.values.HCT : labTest["HCT"]} />
+                            value={labTest == {} ?formik.values.HCT : labTest["HCT"]} />
 
                         {/* <div style={{ color: 'red' }}>
                             {formik.touched.username && formik.errors.username ?
@@ -102,33 +111,33 @@ const ResultForm = () => {
                         <Form.Control type="number" step="0.01" placeholder=""
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            disabled = {data["user"]["role"] != "Doctor"}
+                            disabled = {data["user"]["role"] != "Doctor" || Object.keys(labTest).length != 0}
                             name='MCV'
-                            value={data["user"]["role"] == "Doctor" ?formik.values.MCV : labTest["MCV"]} />
+                            value={labTest == {} ?formik.values.MCV : labTest["MCV"]} />
 
                         <Form.Label>MCH</Form.Label>
                         <Form.Control type="number" step="0.01" placeholder=""
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            disabled = {data["user"]["role"] != "Doctor"}
+                            disabled = {data["user"]["role"] != "Doctor" || Object.keys(labTest).length != 0}
                             name='MCH'
-                            value={data["user"]["role"] == "Doctor" ?formik.values.MCH : labTest["MCH"]} />
+                            value={labTest == {} ?formik.values.MCH : labTest["MCH"]} />
 
                         <Form.Label>MCHC</Form.Label>
                         <Form.Control type="number" step="0.01" placeholder=""
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            disabled = {data["user"]["role"] != "Doctor"}
+                            disabled = {data["user"]["role"] != "Doctor" || Object.keys(labTest).length != 0}
                             name='MCHC'
-                            value={data["user"]["role"] == "Doctor" ?formik.values.MCHC : labTest["MCHC"]} />
+                            value={labTest == {} ?formik.values.MCHC : labTest["MCHC"]} />
 
                         <Form.Label>PLT</Form.Label>
                         <Form.Control type="number" step="0.01" placeholder=""
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            disabled = {data["user"]["role"] != "Doctor"}
+                            disabled = {data["user"]["role"] != "Doctor" || Object.keys(labTest).length != 0}
                             name='PLT'
-                            value={data["user"]["role"] == "Doctor" ?formik.values.PLT : labTest["PLT"]} />
+                            value={labTest == {} ?formik.values.PLT : labTest["PLT"]} />
 
                         {/* <div style={{ color: 'red' }}>
                             {formik.touched.password && formik.errors.password ?
@@ -137,7 +146,7 @@ const ResultForm = () => {
                         </div> */}
                     </Form.Group>
 
-                    {data["user"]["role"] == "Doctor" ?<Button variant="primary" type="submit">
+                    {data["user"]["role"] == "Doctor" &&  Object.keys(labTest).length == 0 ?<Button variant="primary" type="submit">
                         Submit
                     </Button>:<></>}
                 </Form>
