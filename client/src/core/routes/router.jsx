@@ -17,7 +17,7 @@ class RouterClass {
       element: <ErrorPage/>,
     },
     {
-      path: AppRoutes.login,
+      path: AppRoutes.user,
       element: <LoginPage/>,
     },
     {

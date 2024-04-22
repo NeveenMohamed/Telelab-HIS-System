@@ -1,8 +1,9 @@
 // import React, { useEffect, useState } from 'react'
-// import axios from '../../../core/api/api';
+import axios from '../../../core/api/api';
 import { useFormik } from 'formik';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import * as Yup from 'yup';
+
 
 
 const LoginSchema = Yup.object().shape({
@@ -35,14 +36,13 @@ const LoginForm = () => {
     //     }
     // ]
 
-    // const fire = () => {
-    //     axios.post('/login', { username: 'admin', password: 'admin' }).then((response) => {
-    //         console.log(response)
-    //         setfirst(response.data)
-    //     }).catch((error) => {
-    //         console.log(error)
-    //     })
-    // }
+    const fire = (values) => {
+        axios.post('/login', values).then((response) => {
+            console.log(response)
+        }).catch((error) => {
+            console.log(error)
+        })
+    }
 
     // axios.put(`/lab/${2}`, { username: 'admin', password: 'admin' }, { params: 1 }).then((response) => {
     //     console.log(response)
@@ -75,6 +75,7 @@ const LoginForm = () => {
         onSubmit: values => {
             JSON.stringify(values, null, 2);
             console.log(values)
+            fire(values)
         },
     });
 

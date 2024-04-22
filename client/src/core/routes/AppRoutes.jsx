@@ -5,7 +5,7 @@ class AppRoutes {
   
   static Error404 = "*";
   
-  static login = "/login";
+  static user = "/user";
   
   static result = "/result";
 }
