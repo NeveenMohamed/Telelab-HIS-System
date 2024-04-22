@@ -14,7 +14,7 @@ class RouterClass {
   static routes = [
     {
       path: AppRoutes.home,
-      element: <ErrorPage/>,
+      element: <LoginPage/>,
     },
     {
       path: AppRoutes.user,

@@ -130,7 +130,7 @@ const LoginForm = () => {
                         </div>
                     </Form.Group>
 
-                    <Button variant="primary" type="submit">
+                    <Button variant="" style={{backgroundColor: "#C4DFDF", width:"100%"}} type="submit">
                         Submit
                     </Button>
                 </Form>
