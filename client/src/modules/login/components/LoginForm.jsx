@@ -43,6 +43,7 @@ const LoginForm = () => {
     const fire = (values) => {
         axios.post('http://localhost:4000/user', values).then((response) => {
             console.log(response.data)
+            localStorage.setItem("userData", JSON.stringify(response.data))
             navigate("/appointments");
         }).catch((error) => {
             console.log(error)

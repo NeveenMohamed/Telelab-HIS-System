@@ -13,32 +13,25 @@ import './BoardTable.css'
 import { GrInProgress } from "react-icons/gr";
 import { AiOutlineFileDone } from "react-icons/ai";
 
-
-
 const BoardTable = () => {
-    function createData(patientID, labID, status, testType, date, time) {
-        return { patientID, labID, status, testType, date, time };
-    }
 
-    const patients = [
-        createData('Frozen yoghurt', 1, 1, 24, 4.0, 0),
-        createData('Ice cream sandwich', 2, 2, 37, 4.3, 0),
-        createData('Eclair', 1, 1, 24, 6.0, 0),
-        createData('Cupcake', 2, 2, 67, 4.3, 0),
-        createData('Gingerbread', 2, 2, 49, 30, 0),]
+    const [labs, setLabs] = useState([])
 
+    const [userData, setUserData] = useState({})
+    
     useEffect(() => {
+        const data =  JSON.parse(localStorage.getItem("userData"))
+        console.log(data);
         axios.get(`http://localhost:4000/appointments/lab/${1}`).then((response) => {
             console.log(response)
             const labsData = response.data
-            setLabs(labsData??[])
+            setLabs(labsData)
+            setUserData(data)
         }).catch((error) => {
             console.log(error)
         })
     }, [])
 
-    const [labs, setLabs] = useState([])
-        
     return (
     <div className='table-container'>
         <TableContainer component={Paper}>
@@ -51,25 +44,27 @@ const BoardTable = () => {
                         <TableCell sx={{ color: 'white' , fontWeight: 'bold' , fontSize: 16 , textAlign:"center"}} align="right">Test Type</TableCell>
                         <TableCell sx={{ color: 'white' , fontWeight: 'bold' , fontSize: 16 , textAlign:"center"}} align="right">Date</TableCell>
                         <TableCell sx={{ color: 'white' , fontWeight: 'bold' , fontSize: 16 , textAlign:"center"}} align="right">Time</TableCell>
-                        <TableCell sx={{ color: 'white' , fontWeight: 'bold' , fontSize: 16 , textAlign:"center"}} align="right">Result</TableCell>
+                        <TableCell sx={{ color: 'white' , fontWeight: 'bold' , fontSize: 16 , textAlign:"center"}} align="right"></TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {labs.map((patient) => (
+                        
                         <TableRow className='TableRowCss'
-                            key={patient.patientID}
+                            key={patient.patientId}
                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                         >
                             <TableCell component="th" scope="row">
-                                {patient.patientID}
+                                {patient.patientId}
                             </TableCell>
-                            <TableCell align="center">{patient.labID}</TableCell>
+                            <TableCell align="center">{patient.labId}</TableCell>
                             <TableCell align="center">{patient.status == 2 ? <AiOutlineFileDone className='DoneIcon' size={28}/> :  <GrInProgress className='GrInProgressIcon' size={28}/>} </TableCell>
                             <TableCell align="center">{patient.testType}</TableCell>
                             <TableCell align="center">{patient.date}</TableCell>
                             <TableCell align="center">{patient.time}</TableCell>
                             <TableCell align="center">
-                                <button className='buttonCss'>Result</button>
+                            {userData["user"]["role"] == "Doctor"?
+                                <button className='buttonCss' >Add Report</button>:<button className='buttonCss'>Show Report</button>}
                             </TableCell>
                         </TableRow>
                     ))}
