@@ -1,6 +1,8 @@
 import { useFormik } from 'formik';
+import { useState,useEffect } from 'react';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import * as Yup from 'yup';
+import axios from '../../../core/api/api';
 
 
 const ResultSchema = Yup.object().shape({
@@ -13,22 +15,38 @@ const ResultSchema = Yup.object().shape({
 });
 
 const ResultForm = () => {
+
+    const [labTest, setLabTest] = useState({})
+
+    const data =  JSON.parse(localStorage.getItem("userData"))
+
+    useEffect(() => {
+        const id =  JSON.parse(localStorage.getItem("appointmentId"))
+        axios.get(`http://localhost:4000/record/appointment/${id}`).then((response) => {
+            setLabTest(response.data[0]["labTest"])
+        }).catch((error) => {
+            console.log(error)
+        })
+    }, [])
+
     const formik = useFormik({
         initialValues: {
-            WBC: '',
-            RBC: '',
-            HGB: '',
-            HCT: '',
-
-            MCV: '',
-            MCH: '',
-            MCHC: '',
-            PLT: '',
+            WBC: "",
+            RBC: "",
+            HGB: "",
+            HCT: "",
+            MCV: "",
+            MCH: "",
+            MCHC: "",
+            PLT: "",
         },
         validationSchema: ResultSchema,
         onSubmit: values => {
             JSON.stringify(values, null, 2);
             console.log(values)
+
+            const id =  JSON.parse(localStorage.getItem("appointmentId"))
+            axios.put(`http://localhost:4000/appointment/${id}`, {"status":2})
         },
     });
 
@@ -42,29 +60,33 @@ const ResultForm = () => {
                         <Form.Control type="number" step="0.01" placeholder=""
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
+                            disabled = {data["user"]["role"] != "Doctor"}
                             name='WBC'
-                            value={formik.values.WBC} />
+                            value={data["user"]["role"] == "Doctor" ?formik.values.WBC : labTest["WBC"]} />
 
                         <Form.Label>RBC</Form.Label>
                         <Form.Control type="number" step="0.01" placeholder=""
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
+                            disabled = {data["user"]["role"] != "Doctor"}
                             name='RBC'
-                            value={formik.values.RBC} />
+                            value={data["user"]["role"] == "Doctor" ?formik.values.RBC : labTest["RBC"]} />
                             
                         <Form.Label>HGB</Form.Label>
                         <Form.Control type="number" step="0.01" placeholder=""
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
+                            disabled = {data["user"]["role"] != "Doctor"}
                             name='HGB'
-                            value={formik.values.HGB} />
+                            value={data["user"]["role"] == "Doctor" ?formik.values.HGB : labTest["HGB"]} />
 
                         <Form.Label>HCT</Form.Label>
                         <Form.Control type="number" step="0.01" placeholder=""
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
+                            disabled = {data["user"]["role"] != "Doctor"}
                             name='HCT'
-                            value={formik.values.HCT} />
+                            value={data["user"]["role"] == "Doctor" ?formik.values.HCT : labTest["HCT"]} />
 
                         {/* <div style={{ color: 'red' }}>
                             {formik.touched.username && formik.errors.username ?
@@ -80,29 +102,33 @@ const ResultForm = () => {
                         <Form.Control type="number" step="0.01" placeholder=""
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
+                            disabled = {data["user"]["role"] != "Doctor"}
                             name='MCV'
-                            value={formik.values.MCV} />
+                            value={data["user"]["role"] == "Doctor" ?formik.values.MCV : labTest["MCV"]} />
 
                         <Form.Label>MCH</Form.Label>
                         <Form.Control type="number" step="0.01" placeholder=""
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
+                            disabled = {data["user"]["role"] != "Doctor"}
                             name='MCH'
-                            value={formik.values.MCH} />
+                            value={data["user"]["role"] == "Doctor" ?formik.values.MCH : labTest["MCH"]} />
 
                         <Form.Label>MCHC</Form.Label>
                         <Form.Control type="number" step="0.01" placeholder=""
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
+                            disabled = {data["user"]["role"] != "Doctor"}
                             name='MCHC'
-                            value={formik.values.MCHC} />
+                            value={data["user"]["role"] == "Doctor" ?formik.values.MCHC : labTest["MCHC"]} />
 
                         <Form.Label>PLT</Form.Label>
                         <Form.Control type="number" step="0.01" placeholder=""
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
+                            disabled = {data["user"]["role"] != "Doctor"}
                             name='PLT'
-                            value={formik.values.PLT} />
+                            value={data["user"]["role"] == "Doctor" ?formik.values.PLT : labTest["PLT"]} />
 
                         {/* <div style={{ color: 'red' }}>
                             {formik.touched.password && formik.errors.password ?
@@ -111,9 +137,9 @@ const ResultForm = () => {
                         </div> */}
                     </Form.Group>
 
-                    <Button variant="primary" type="submit">
+                    {data["user"]["role"] == "Doctor" ?<Button variant="primary" type="submit">
                         Submit
-                    </Button>
+                    </Button>:<></>}
                 </Form>
             </Col>
         </Row>

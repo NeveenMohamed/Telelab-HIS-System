@@ -12,6 +12,7 @@ import axios from '../../../core/api/api';
 import './BoardTable.css'
 import { GrInProgress } from "react-icons/gr";
 import { AiOutlineFileDone } from "react-icons/ai";
+import { useNavigate } from 'react-router-dom';
 
 const BoardTable = () => {
 
@@ -22,7 +23,7 @@ const BoardTable = () => {
     useEffect(() => {
         const data =  JSON.parse(localStorage.getItem("userData"))
         console.log(data);
-        axios.get(`http://localhost:4000/appointments/lab/${1}`).then((response) => {
+        axios.get(`http://localhost:4000/appointments/lab/${data["user"]["labId"]}`).then((response) => {
             console.log(response)
             const labsData = response.data
             setLabs(labsData)
@@ -31,6 +32,14 @@ const BoardTable = () => {
             console.log(error)
         })
     }, [])
+
+    const navigate = useNavigate();
+
+    function navigateReport(id) {
+        console.log(id);
+        localStorage.setItem("appointmentId", JSON.stringify(id));
+        navigate("/result");
+    }
 
     return (
     <div className='table-container'>
@@ -48,23 +57,23 @@ const BoardTable = () => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {labs.map((patient) => (
+                    {labs.map((appointment) => (
                         
                         <TableRow className='TableRowCss'
-                            key={patient.patientId}
+                            key={appointment.patientId}
                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                         >
                             <TableCell component="th" scope="row">
-                                {patient.patientId}
+                                {appointment.patientId}
                             </TableCell>
-                            <TableCell align="center">{patient.labId}</TableCell>
-                            <TableCell align="center">{patient.status == 2 ? <AiOutlineFileDone className='DoneIcon' size={28}/> :  <GrInProgress className='GrInProgressIcon' size={28}/>} </TableCell>
-                            <TableCell align="center">{patient.testType}</TableCell>
-                            <TableCell align="center">{patient.date}</TableCell>
-                            <TableCell align="center">{patient.time}</TableCell>
+                            <TableCell align="center">{appointment.labId}</TableCell>
+                            <TableCell align="center">{appointment.status == 2 ? <AiOutlineFileDone className='DoneIcon' size={28}/> :  <GrInProgress className='GrInProgressIcon' size={28}/>} </TableCell>
+                            <TableCell align="center">{appointment.testType}</TableCell>
+                            <TableCell align="center">{appointment.date}</TableCell>
+                            <TableCell align="center">{appointment.time}</TableCell>
                             <TableCell align="center">
                             {userData["user"]["role"] == "Doctor"?
-                                <button className='buttonCss' >Add Report</button>:<button className='buttonCss'>Show Report</button>}
+                                <button key={appointment.patientId} className='buttonCss' onClick={()=>navigateReport(appointment._id)}  >Add Report</button>:<button className='buttonCss' onClick={()=>navigateReport(appointment._id)}>Show Report</button>}
                             </TableCell>
                         </TableRow>
                     ))}
