@@ -1,29 +1,20 @@
+import React from "react";
 import { useFormik } from "formik";
 import { useState, useEffect } from "react";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import * as Yup from "yup";
 import axios from "../../../core/api/api";
 import { useNavigate } from "react-router-dom";
-import "./ResultForm.css";
 
-const ResultSchema = Yup.object().shape({
-  // WBC: Yup.string()
-  //     .min(8, 'Username should be minimum 8 characters length')
-  //     .required('Required'),
-  // RBC: Yup.string()
-  //     .min(8, 'Password should be minimum 8 characters length')
-  //     .required('Password is required'),
-});
-
-const ResultForm = () => {
+const PatientDataForm = () => {
   const [labTest, setLabTest] = useState({});
 
   const data = JSON.parse(localStorage.getItem("userData"));
 
   useEffect(() => {
-    const id = JSON.parse(localStorage.getItem("appointmentId"));
+    // const id = JSON.parse(localStorage.getItem("appointmentId"));
     axios
-      .get(`http://localhost:4000/record/appointment/${id}`)
+      .get(`http://localhost:4000/appointments/appointment/${id}`)
       .then((response) => {
         setLabTest(response.data[0]["labTest"]);
       })
@@ -69,18 +60,15 @@ const ResultForm = () => {
           <div className="two-columns-display">
             <Col xs={4}>
               <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Label>WBC</Form.Label>
+                <Form.Label>Patient ID</Form.Label>
                 <Form.Control
                   type="number"
                   step="0.01"
                   placeholder=""
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  disabled={
-                    data["user"]["role"] != "Doctor" ||
-                    Object.keys(labTest).length != 0
-                  }
-                  name="WBC"
+                  disabled={ true }
+                  name="patientID"
                   value={labTest == {} ? formik.values.WBC : labTest["WBC"]}
                 />
 
@@ -231,4 +219,4 @@ const ResultForm = () => {
   );
 };
 
-export default ResultForm;
+export default PatientDataForm;

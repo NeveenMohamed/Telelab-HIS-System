@@ -1,0 +1,6 @@
+.two-columns-display{
+    justify-content: space-around;
+    display: flex;
+    flex-direction: row;
+
+}
