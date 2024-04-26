@@ -1,5 +1,4 @@
 const Appointment = require("../models/Appointment");
-const Slot = require("../models/Slot");
 const axios = require("axios");
 
 const status = {
@@ -18,56 +17,23 @@ const weekDays = {
 
 const bookAppointment = async (req, res) => {
   try {
-    const { slotId, patientId, date, testType } = req.body;
+    const { patientId, doctorId, labId, time, date, testType } = req.body;
 
-    const weekDay = weekDays[new Date(date).getDay()];
-
-    // Validate that slotId exists
-    try {
-      if (!(await Slot.findOne({ _id: slotId, weekDay: weekDay }))) {
-        return res.status(400).json({
-          message:
-            "There is no slot found either in this Day or with this SlotID",
-        });
-      }
-    } catch (error) {
-      res.status(400).json({
-        message: "There is no slot found with this SlotID",
-      });
-    }
-
-    // Check for existing appointments for the same date and slot
-    if (await Appointment.findOne({ slotId, date })) {
+    // Check for existing appointments for the same date
+    if (await Appointment.findOne({ date })) {
       return res.status(400).json({
-        message: "Appointment already booked for that slot and date",
+        message: "Appointment already booked for that date",
       });
     }
 
-    // Validate patientId using registration service
-    try {
-      const patientValidationResponse = await axios.get(
-        `https://registration-zf9n.onrender.com/patient/${patientId}`
-      );
-    } catch (error) {
-      // Handle API request error
-      return res.status(400).json({
-        message: "Error validating patientId",
-      });
-    }
-
-    const appointment = await Slot.findOne({ _id: slotId }).then((slot) => {
-      const appointmentCreated = Appointment.create({
-        slotId: slotId,
-        patientId: patientId,
-        doctorId: slot.doctorId,
-        clinicId: slot.clinicId,
-        date: date,
-        testType: testType,
-        time: slot.time,
-        status: status.InProgress,
-      });
-
-      return appointmentCreated;
+    const appointment = Appointment.create({
+      patientId: patientId,
+      doctorId: doctorId,
+      labId: labId,
+      date: date,
+      testType: testType,
+      time: time,
+      status: status.InProgress,
     });
 
     console.log(appointment);
@@ -121,6 +87,28 @@ const cancelAppointment = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
+};
+
+const timeValidation = () => {
+  const timeRegex = /^(?:[01]\d|2[0-3]):[0-5]\d$/;
+  if (!timeRegex.test(time)) {
+    return json({
+      message: "Invalid time format. Use the format HH:mm.",
+    });
+  }
+};
+
+const dateValidation = (date) => {
+  const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+
+  if (!dateRegex.test(date)) {
+    return {
+      valid: false,
+      message: "Invalid date format. Use the format YYYY-MM-DD.",
+    };
+  }
+
+  return { valid: true };
 };
 
 module.exports = {
