@@ -8,8 +8,8 @@ import logo from '../../../assets/logo.png'
 const NavBar = () => {
     return (
         <>
-            <Navbar expand="lg" className="bg-body-tertiary" style={{width:"100%"}}>
-                <Container style={{backgroundColor:"#C4DFDF", width:"100vw"}}>
+            <Navbar expand="lg" className="" style={{width:"100% !important", margin:"0", backgroundColor:"#C4DFDF"}}>
+                <Container style={{backgroundColor:"#C4DFDF", width:"100vw", margin:"0"}}>
                     <Navbar.Brand href="#home">
                         <img src={logo} alt="" width={100} height={100} />
                     </Navbar.Brand>

@@ -58,7 +58,7 @@ const PatientDataForm = () => {
         <Form onSubmit={formik.handleSubmit}>
           <h1 className="text-center">Fill up the Result...</h1>
           <div className="two-columns-display">
-            <Col xs={4}>
+            <Col xs={3}>
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Patient ID</Form.Label>
                 <Form.Control
@@ -125,7 +125,7 @@ const PatientDataForm = () => {
               </Form.Group>
             </Col>
 
-            <Col xs={4}>
+            <Col xs={3}>
               <Form.Group className="mb-3" controlId="formBasicPassword">
                 <Form.Label>MCV</Form.Label>
                 <Form.Control

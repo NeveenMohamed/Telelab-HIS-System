@@ -62,171 +62,170 @@ const ResultForm = () => {
   });
 
   return (
-    <Row className="justify-content-md-center" style={{ padding: "5%" }}>
-      <Col xs={6}>
-        <Form onSubmit={formik.handleSubmit}>
-          <h1 className="text-center">Fill up the Result...</h1>
-          <div className="two-columns-display">
-            <Col xs={4}>
-              <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Label>WBC</Form.Label>
-                <Form.Control
-                  type="number"
-                  step="0.01"
-                  placeholder=""
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  disabled={
-                    data["user"]["role"] != "Doctor" ||
-                    Object.keys(labTest).length != 0
-                  }
-                  name="WBC"
-                  value={labTest == {} ? formik.values.WBC : labTest["WBC"]}
-                />
+    <Row>
+      <Form onSubmit={formik.handleSubmit}>
+        <h1 className="text-center">Fill up the Result...</h1>
 
-                <Form.Label>RBC</Form.Label>
-                <Form.Control
-                  type="number"
-                  step="0.01"
-                  placeholder=""
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  disabled={
-                    data["user"]["role"] != "Doctor" ||
-                    Object.keys(labTest).length != 0
-                  }
-                  name="RBC"
-                  value={labTest == {} ? formik.values.RBC : labTest["RBC"]}
-                />
+        <div className="two-columns-display">
+          <Col xs={5}>
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+              <Form.Label>WBC</Form.Label>
+              <Form.Control
+                type="number"
+                step="0.01"
+                placeholder=""
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                disabled={
+                  data["user"]["role"] != "Doctor" ||
+                  Object.keys(labTest).length != 0
+                }
+                name="WBC"
+                value={labTest == {} ? formik.values.WBC : labTest["WBC"]}
+              />
 
-                <Form.Label>HGB</Form.Label>
-                <Form.Control
-                  type="number"
-                  step="0.01"
-                  placeholder=""
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  disabled={
-                    data["user"]["role"] != "Doctor" ||
-                    Object.keys(labTest).length != 0
-                  }
-                  name="HGB"
-                  value={labTest == {} ? formik.values.HGB : labTest["HGB"]}
-                />
+              <Form.Label>RBC</Form.Label>
+              <Form.Control
+                type="number"
+                step="0.01"
+                placeholder=""
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                disabled={
+                  data["user"]["role"] != "Doctor" ||
+                  Object.keys(labTest).length != 0
+                }
+                name="RBC"
+                value={labTest == {} ? formik.values.RBC : labTest["RBC"]}
+              />
 
-                <Form.Label>HCT</Form.Label>
-                <Form.Control
-                  type="number"
-                  step="0.01"
-                  placeholder=""
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  disabled={
-                    data["user"]["role"] != "Doctor" ||
-                    Object.keys(labTest).length != 0
-                  }
-                  name="HCT"
-                  value={labTest == {} ? formik.values.HCT : labTest["HCT"]}
-                />
+              <Form.Label>HGB</Form.Label>
+              <Form.Control
+                type="number"
+                step="0.01"
+                placeholder=""
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                disabled={
+                  data["user"]["role"] != "Doctor" ||
+                  Object.keys(labTest).length != 0
+                }
+                name="HGB"
+                value={labTest == {} ? formik.values.HGB : labTest["HGB"]}
+              />
 
-                {/* <div style={{ color: 'red' }}>
+              <Form.Label>HCT</Form.Label>
+              <Form.Control
+                type="number"
+                step="0.01"
+                placeholder=""
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                disabled={
+                  data["user"]["role"] != "Doctor" ||
+                  Object.keys(labTest).length != 0
+                }
+                name="HCT"
+                value={labTest == {} ? formik.values.HCT : labTest["HCT"]}
+              />
+
+              {/* <div style={{ color: 'red' }}>
                             {formik.touched.username && formik.errors.username ?
                                 formik.errors.username
                                 : null}
                             </div> */}
-              </Form.Group>
-            </Col>
+            </Form.Group>
+          </Col>
 
-            <Col xs={4}>
-              <Form.Group className="mb-3" controlId="formBasicPassword">
-                <Form.Label>MCV</Form.Label>
-                <Form.Control
-                  type="number"
-                  step="0.01"
-                  placeholder=""
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  disabled={
-                    data["user"]["role"] != "Doctor" ||
-                    Object.keys(labTest).length != 0
-                  }
-                  name="MCV"
-                  value={labTest == {} ? formik.values.MCV : labTest["MCV"]}
-                />
+          <Col xs={5}>
+            <Form.Group className="mb-3" controlId="formBasicPassword">
+              <Form.Label>MCV</Form.Label>
+              <Form.Control
+                type="number"
+                step="0.01"
+                placeholder=""
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                disabled={
+                  data["user"]["role"] != "Doctor" ||
+                  Object.keys(labTest).length != 0
+                }
+                name="MCV"
+                value={labTest == {} ? formik.values.MCV : labTest["MCV"]}
+              />
 
-                <Form.Label>MCH</Form.Label>
-                <Form.Control
-                  type="number"
-                  step="0.01"
-                  placeholder=""
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  disabled={
-                    data["user"]["role"] != "Doctor" ||
-                    Object.keys(labTest).length != 0
-                  }
-                  name="MCH"
-                  value={labTest == {} ? formik.values.MCH : labTest["MCH"]}
-                />
+              <Form.Label>MCH</Form.Label>
+              <Form.Control
+                type="number"
+                step="0.01"
+                placeholder=""
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                disabled={
+                  data["user"]["role"] != "Doctor" ||
+                  Object.keys(labTest).length != 0
+                }
+                name="MCH"
+                value={labTest == {} ? formik.values.MCH : labTest["MCH"]}
+              />
 
-                <Form.Label>MCHC</Form.Label>
-                <Form.Control
-                  type="number"
-                  step="0.01"
-                  placeholder=""
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  disabled={
-                    data["user"]["role"] != "Doctor" ||
-                    Object.keys(labTest).length != 0
-                  }
-                  name="MCHC"
-                  value={labTest == {} ? formik.values.MCHC : labTest["MCHC"]}
-                />
+              <Form.Label>MCHC</Form.Label>
+              <Form.Control
+                type="number"
+                step="0.01"
+                placeholder=""
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                disabled={
+                  data["user"]["role"] != "Doctor" ||
+                  Object.keys(labTest).length != 0
+                }
+                name="MCHC"
+                value={labTest == {} ? formik.values.MCHC : labTest["MCHC"]}
+              />
 
-                <Form.Label>PLT</Form.Label>
-                <Form.Control
-                  type="number"
-                  step="0.01"
-                  placeholder=""
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  disabled={
-                    data["user"]["role"] != "Doctor" ||
-                    Object.keys(labTest).length != 0
-                  }
-                  name="PLT"
-                  value={labTest == {} ? formik.values.PLT : labTest["PLT"]}
-                />
+              <Form.Label>PLT</Form.Label>
+              <Form.Control
+                type="number"
+                step="0.01"
+                placeholder=""
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                disabled={
+                  data["user"]["role"] != "Doctor" ||
+                  Object.keys(labTest).length != 0
+                }
+                name="PLT"
+                value={labTest == {} ? formik.values.PLT : labTest["PLT"]}
+              />
 
-                {/* <div style={{ color: 'red' }}>
+              {/* <div style={{ color: 'red' }}>
                             {formik.touched.password && formik.errors.password ?
                                 formik.errors.password
                                 : null}
                             </div> */}
-              </Form.Group>
-            </Col>
-          </div>
+            </Form.Group>
+          </Col>
+        </div>
 
-          {data["user"]["role"] == "Doctor" &&
+        {data["user"]["role"] == "Doctor" &&
           Object.keys(labTest).length == 0 ? (
-            <Button
-              variant="primary"
-              type="submit"
-              style={{
-                width: "100%",
-                backgroundColor: "#C4DFDF",
-                color: "black",
-                border: "0",
-              }}
-            >
-              Submit
-            </Button>
-          ) : (
-            <></>
-          )}
-        </Form>
-      </Col>
+          <Button
+            variant="primary"
+            type="submit"
+            style={{
+              width: "100%",
+              backgroundColor: "#C4DFDF",
+              color: "black",
+              border: "0",
+            }}
+          >
+            Submit
+          </Button>
+        ) : (
+          <></>
+        )}
+      </Form>
     </Row>
   );
 };
