@@ -6,6 +6,18 @@ const status = {
   Done: 2,
 };
 
+const getAppointmentByID = async (req, res) => {
+  const { appointmentId } = req.params;
+  try {
+    const appointment = await Appointment.find({ _id: appointmentId });
+    res.status(200).json(appointment);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// ================================================================================= //
+
 const getAppointmentByLabID = async (req, res) => {
   try {
     const { labId } = req.params;
@@ -59,6 +71,7 @@ const dateValidation = (date) => {
 };
 
 module.exports = {
+  getAppointmentByID,
   getAppointmentByLabID,
   updateAppointmentStatus,
 };
