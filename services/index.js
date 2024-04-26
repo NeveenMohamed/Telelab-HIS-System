@@ -5,7 +5,6 @@ const cors = require("cors");
 
 const app = express();
 
-const slotRoute = require("./Appointments/routes/slotRoutes");
 const appointmentRoute = require("./Appointments/routes/appointmentRoutes");
 const userRoute = require("./Registeration/routes/userRoutes");
 const recordRoute = require("./EMR/routes/recordRoutes");
@@ -30,7 +29,6 @@ app.use(express.json());
 app.use(cors());
 
 // Routes
-app.use("/slots", slotRoute);
 app.use("/appointments", appointmentRoute);
 app.use("/user", userRoute);
 app.use("/record", recordRoute);

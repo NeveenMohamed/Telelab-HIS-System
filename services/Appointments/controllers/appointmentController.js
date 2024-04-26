@@ -1,20 +1,9 @@
 const Appointment = require("../models/Appointment");
-const Slot = require("../models/Slot");
 const axios = require("axios");
 
 const status = {
   InProgress: 1,
   Done: 2,
-};
-
-const weekDays = {
-  0: "Sunday",
-  1: "Monday",
-  2: "Tuesday",
-  3: "Wednesday",
-  4: "Thursday",
-  5: "Friday",
-  6: "Saturday",
 };
 
 const getAppointmentByLabID = async (req, res) => {
@@ -45,6 +34,28 @@ const updateAppointmentStatus = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
+};
+
+const timeValidation = () => {
+  const timeRegex = /^(?:[01]\d|2[0-3]):[0-5]\d$/;
+  if (!timeRegex.test(time)) {
+    return json({
+      message: "Invalid time format. Use the format HH:mm.",
+    });
+  }
+};
+
+const dateValidation = (date) => {
+  const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+
+  if (!dateRegex.test(date)) {
+    return {
+      valid: false,
+      message: "Invalid date format. Use the format YYYY-MM-DD.",
+    };
+  }
+
+  return { valid: true };
 };
 
 module.exports = {
