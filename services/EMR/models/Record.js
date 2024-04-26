@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const labTestSchema = require("../models/LabTest");
+const labTestSchema = require("./LabTest");
 
 const recordSchema = mongoose.Schema({
   appointmentId: {
