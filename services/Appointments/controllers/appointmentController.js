@@ -8,7 +8,7 @@ const status = {
 
 const bookAppointment = async (req, res) => {
   try {
-    const { patientId, doctorId, labId, time, date, testType } = req.body;
+    const { patient, doctorId, labId, time, date, testType } = req.body;
 
     // Check for existing appointments for the same date
     if (await Appointment.findOne({ date })) {
@@ -18,7 +18,7 @@ const bookAppointment = async (req, res) => {
     }
 
     const appointment = Appointment.create({
-      patientId: patientId,
+      patient: patient,
       doctorId: doctorId,
       labId: labId,
       date: date,
@@ -27,7 +27,6 @@ const bookAppointment = async (req, res) => {
       status: status.InProgress,
     });
 
-    console.log(appointment);
     res.status(200).json({ message: "Success", appointment });
   } catch (error) {
     res.status(500).json({ message: error.message });
