@@ -13,7 +13,7 @@ const recordRoute = require("./EMR/routes/recordRoutes");
 // Connect to database
 const uri =
   "mongodb+srv://Sherif:12345@telelab.urpw51y.mongodb.net/Central?retryWrites=true&w=majority&appName=TeleLab";
-const port = 3000;
+const port = 4000;
 
 mongoose
   .connect(uri)
