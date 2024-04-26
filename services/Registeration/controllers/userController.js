@@ -34,6 +34,25 @@ const loginUser = async (req, res) => {
   }
 };
 
+const addUser = async (req, res) => {
+  try {
+    const { username, password, role, labId } = req.body;
+
+    // Create the slot only if no conflicts are found
+    const newUser = await User.create({
+      username,
+      password,
+      role,
+      labId,
+    });
+
+    res.status(201).json({ message: "Success", newUser: newUser });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   loginUser,
+  addUser,
 };
