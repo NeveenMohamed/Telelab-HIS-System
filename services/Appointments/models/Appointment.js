@@ -1,9 +1,10 @@
 const mongoose = require("mongoose");
+const patientSchema = require("./Patient");
 
 const appointmentSchema = mongoose.Schema({
-  patientId: {
-    type: Number,
-    required: [true, "Please enter patient id"],
+  patient: {
+    type: patientSchema,
+    required: [true, "Please enter patient information"],
   },
   labId: {
     type: Number,

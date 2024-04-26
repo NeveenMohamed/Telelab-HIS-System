@@ -1,21 +1,14 @@
 const mongoose = require("mongoose");
+const labTestSchema = require("./LabTest");
 
 const recordSchema = mongoose.Schema({
-  patientId: {
-    type: Number,
-    required: [true, "Please enter the patient's ID"],
-  },
-  labId: {
-    type: Number,
-    required: [true, "Please enter the lab ID"],
-  },
-  doctorId: {
-    type: Number,
-    required: [true, "Please enter the doctor's ID"],
-  },
-  testType: {
+  appointmentId: {
     type: String,
-    required: [true, "Please enter the type of the test"],
+    required: [true],
+  },
+  labTest: {
+    type: labTestSchema,
+    required: [true, "Please enter the lab test results"],
   },
   reportingDate: {
     type: Date,
