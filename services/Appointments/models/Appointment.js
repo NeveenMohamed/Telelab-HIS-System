@@ -12,7 +12,6 @@ const appointmentSchema = mongoose.Schema({
   },
   status: {
     type: Number,
-    required: [true, "Please enter the appointment's status"],
   },
   testType: {
     type: String,

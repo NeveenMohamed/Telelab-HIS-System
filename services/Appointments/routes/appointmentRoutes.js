@@ -6,7 +6,10 @@ router.post("/", AppointmentController.bookAppointment);
 
 router.get("/", AppointmentController.getAllAppointments);
 
-router.get("/lab/:labId", AppointmentController.getAppointmentByLabID);
+router.get(
+  "/appointment/:appointmentId",
+  AppointmentController.getAppointmentByID
+);
 
 router.delete("/:appointmentId", AppointmentController.cancelAppointment);
 

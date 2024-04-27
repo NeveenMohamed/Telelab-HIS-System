@@ -8,4 +8,9 @@ router.get("/lab/:labId", RecordController.getRecordsByLabID);
 
 router.get("/patient/:patientId", RecordController.getRecordsByPatientID);
 
+router.get(
+  "/appointment/:appointmentId",
+  RecordController.getRecordsByAppointmentID
+);
+
 module.exports = router;

@@ -15,20 +15,14 @@ import { AiOutlineFileDone } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 
 const BoardTable = () => {
-  const [labs, setLabs] = useState([]);
-
-  const [userData, setUserData] = useState({});
+  const [appointmentsData, setAppointmentsData] = useState([]);
 
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("userData"));
-    console.log(data);
     axios
-      .get(`http://localhost:4000/appointments/lab/${data["user"]["labId"]}`)
+      .get(`http://localhost:4000/appointments/`)
       .then((response) => {
-        console.log(response);
-        const labsData = response.data;
-        setLabs(labsData);
-        setUserData(data);
+        const appointmentsData = response.data;
+        setAppointmentsData(appointmentsData);
       })
       .catch((error) => {
         console.log(error);
@@ -129,14 +123,14 @@ const BoardTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {labs.map((appointment) => (
+            {appointmentsData.map((appointment) => (
               <TableRow
                 className="TableRowCss"
-                key={appointment.patientId}
+                key={appointment._id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {appointment.patientId}
+                  {appointment.patient.name}
                 </TableCell>
                 <TableCell align="center">{appointment.labId}</TableCell>
                 <TableCell align="center">
@@ -150,23 +144,14 @@ const BoardTable = () => {
                 <TableCell align="center">{appointment.date}</TableCell>
                 <TableCell align="center">{appointment.time}</TableCell>
                 <TableCell align="center">
-                  {userData["user"]["role"] == "Doctor" &&
-                  appointment.status != 2 ? (
-                    <button
-                      key={appointment.patientId}
-                      className="buttonCss"
-                      onClick={() => navigateReport(appointment._id)}
-                    >
-                      Add Report
-                    </button>
-                  ) : (
+                  {appointment.status != 1 ? (
                     <button
                       className="buttonCss"
                       onClick={() => navigateReport(appointment._id)}
                     >
                       Show Report
                     </button>
-                  )}
+                  ) : null}
                 </TableCell>
               </TableRow>
             ))}

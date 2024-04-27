@@ -46,10 +46,10 @@ const getAllAppointments = async (req, res) => {
 
 // ================================================================================= //
 
-const getAppointmentByLabID = async (req, res) => {
+const getAppointmentByID = async (req, res) => {
+  const { appointmentId } = req.params;
   try {
-    const { labId } = req.params;
-    const appointment = await Appointment.find({ labId: labId });
+    const appointment = await Appointment.find({ _id: appointmentId });
     res.status(200).json(appointment);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -104,6 +104,6 @@ const dateValidation = (date) => {
 module.exports = {
   bookAppointment,
   getAllAppointments,
-  getAppointmentByLabID,
+  getAppointmentByID,
   cancelAppointment,
 };
