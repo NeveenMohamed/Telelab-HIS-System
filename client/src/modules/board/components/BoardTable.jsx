@@ -54,7 +54,7 @@ const BoardTable = () => {
                   textAlign: "left",
                 }}
               >
-                Patient ID
+                Patient Name
               </TableCell>
               <TableCell
                 sx={{
