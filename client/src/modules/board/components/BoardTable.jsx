@@ -60,7 +60,7 @@ const BoardTable = () => {
                   textAlign: "left",
                 }}
               >
-                Patient ID
+                Patient Name
               </TableCell>
               <TableCell
                 sx={{
@@ -136,7 +136,7 @@ const BoardTable = () => {
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {appointment.patientId}
+                  {appointment.patient.name}
                 </TableCell>
                 <TableCell align="center">{appointment.labId}</TableCell>
                 <TableCell align="center">
