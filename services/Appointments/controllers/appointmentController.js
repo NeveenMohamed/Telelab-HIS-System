@@ -10,10 +10,13 @@ const bookAppointment = async (req, res) => {
   try {
     const { patient, doctorId, labId, time, date, testType } = req.body;
 
-    // Check for existing appointments for the same date
-    if (await Appointment.findOne({ date })) {
+    // Check for existing appointments in this lab for the same date and time
+    const appointments = await Appointment.find({ date, time, labId });
+
+    if (appointments.length > 3) {
       return res.status(400).json({
-        message: "Appointment already booked for that date",
+        message:
+          "Appointment in this lab is already booked 3 times for the same date and time",
       });
     }
 
