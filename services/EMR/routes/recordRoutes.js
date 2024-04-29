@@ -4,10 +4,6 @@ const RecordController = require("../controllers/recordController");
 
 router.get("/", RecordController.getAllRecords);
 
-router.get("/lab/:labId", RecordController.getRecordsByLabID);
-
-router.get("/patient/:patientId", RecordController.getRecordsByPatientID);
-
 router.get(
   "/appointment/:appointmentId",
   RecordController.getRecordsByAppointmentID
