@@ -40,26 +40,6 @@ const getRecordsByLabID = async (req, res) => {
 
 // ================================================================================= //
 
-const getRecordsByPatientID = async (req, res) => {
-  try {
-    const { patientId } = req.params;
-
-    let records = await Record.find({ patientId: patientId });
-
-    if (records.length == 0) {
-      return res
-        .status(404)
-        .json({ message: "No records found in records list" });
-    }
-
-    res.status(200).json(records);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
-// ================================================================================= //
-
 const getRecordsByAppointmentID = async (req, res) => {
   try {
     const { appointmentId } = req.params;
@@ -81,6 +61,5 @@ const getRecordsByAppointmentID = async (req, res) => {
 module.exports = {
   createRecord,
   getRecordsByLabID,
-  getRecordsByPatientID,
   getRecordsByAppointmentID,
 };

@@ -6,8 +6,6 @@ router.post("/", RecordController.createRecord);
 
 router.get("/lab/:labId", RecordController.getRecordsByLabID);
 
-router.get("/patient/:patientId", RecordController.getRecordsByPatientID);
-
 router.get(
   "/appointment/:appointmentId",
   RecordController.getRecordsByAppointmentID
