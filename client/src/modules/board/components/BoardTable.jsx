@@ -13,6 +13,7 @@ import "./BoardTable.css";
 import { GrInProgress } from "react-icons/gr";
 import { AiOutlineFileDone } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
+import AddButton from '../components/AddButton.jsx';
 
 const BoardTable = () => {
   const [appointmentsData, setAppointmentsData] = useState([]);
@@ -39,6 +40,7 @@ const BoardTable = () => {
   return (
     <div className="table-container">
       <TableContainer component={Paper}>
+        <AddButton />
         <Table
           className="table"
           sx={{ minWidth: 650 }}
