@@ -10,7 +10,7 @@ const PORT = 3838;
 const HOST = "41.46.96.67";
 
 client.connect(PORT, HOST, () => {
-  console.log("Connected to server");
+  console.log("Connected to server from client file");
   // No need to send initial message here
 });
 
@@ -33,7 +33,7 @@ async function watchAllCollections(url) {
     // Connect to the MongoDB server
     await client.connect();
 
-    console.log("Connected to MongoDB server");
+    console.log("Connected to MongoDB server from client file");
 
     // Get the database
     const db = client.db();
@@ -53,10 +53,14 @@ async function watchAllCollections(url) {
         client.write(JSON.stringify(change));
       });
     });
-  } finally {
-    // Close the client
-    await client.close();
+  } catch (error) {
+    console.error("Error reading data:", error);
   }
 }
 
-export default watchAllCollections;
+module.exports={watchAllCollections};
+
+// finally {
+//   // Close the client
+//   await client.close();
+// }

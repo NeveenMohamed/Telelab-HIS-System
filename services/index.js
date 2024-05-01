@@ -8,9 +8,7 @@ const app = express();
 const appointmentRoute = require("./Appointments/routes/appointmentRoutes");
 const userRoute = require("./Registeration/routes/userRoutes");
 const recordRoute = require("./EMR/routes/recordRoutes");
-const {
-  default: watchAllCollections,
-} = require("../client");
+const { watchAllCollections} = require("./client");
 
 // Connect to database
 const url =
@@ -18,15 +16,15 @@ const url =
 const port = 4000;
 
 mongoose
-  .connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
-    console.log("Connected to MongoDB");
-    app.listen(port, () => console.log("Server up and running"));
+    console.log("Connected to MongoDB from index file");
+    app.listen(port, () => console.log("Back Server up and running"));
     watchAllCollections(url);
     console.log("Listening....");
   })
   .catch((error) => {
-    console.log(error);
+    console.log("Error:",error);
   });
 
 // Middleware
