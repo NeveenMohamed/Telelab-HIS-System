@@ -62,12 +62,11 @@ const ResultForm = () => {
   });
 
   return (
-    <Row className="justify-content-md-center" style={{ padding: "5%" }}>
-      <Col xs={6}>
+    <Row >
         <Form onSubmit={formik.handleSubmit}>
           <h1 className="text-center">Fill up the Result...</h1>
           <div className="two-columns-display">
-            <Col xs={4}>
+            <Col xs={5}>
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>WBC</Form.Label>
                 <Form.Control
@@ -125,7 +124,7 @@ const ResultForm = () => {
               </Form.Group>
             </Col>
 
-            <Col xs={4}>
+            <Col xs={5}>
               <Form.Group className="mb-3" controlId="formBasicPassword">
                 <Form.Label>MCV</Form.Label>
                 <Form.Control
@@ -184,7 +183,6 @@ const ResultForm = () => {
             </Col>
           </div>
         </Form>
-      </Col>
     </Row>
   );
 };
