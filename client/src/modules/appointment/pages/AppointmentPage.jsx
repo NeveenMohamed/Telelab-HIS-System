@@ -1,14 +1,14 @@
-import React from 'react'
-import AddAppointment from '../components/AddAppointment'
-import NavBar from '../../../core/components/navbar/NavBar'
+import React from "react";
+import AddAppointment from "../components/AddAppointment";
+import NavBar from "../../../core/components/navbar/NavBar";
 
 const AppointmentPage = () => {
-    return (
-        <>
-            <NavBar />
-            <AddAppointment />
-        </>
-    )
-}
+  return (
+    <>
+      <NavBar />
+      <AddAppointment />
+    </>
+  );
+};
 
-export default AppointmentPage
+export default AppointmentPage;

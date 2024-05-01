@@ -8,7 +8,7 @@ const status = {
 
 const bookAppointment = async (req, res) => {
   try {
-    const { patient, doctorId, labId, time, date, testType } = req.body;
+    const { patient, labId, time, date, testType } = req.body;
 
     // Check for existing appointments in this lab for the same date and time
     const appointments = await Appointment.find({ date, time, labId });
@@ -22,7 +22,6 @@ const bookAppointment = async (req, res) => {
 
     const appointment = Appointment.create({
       patient: patient,
-      doctorId: doctorId,
       labId: labId,
       date: date,
       testType: testType,
