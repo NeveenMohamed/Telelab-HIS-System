@@ -20,11 +20,47 @@ const createRecord = async (req, res) => {
 
 // ================================================================================= //
 
+const getAllRecords = async (req, res) => {
+  try {
+    const records = await Record.find({});
+    if (records.length == 0) {
+      return res
+        .status(404)
+        .json({ message: "No records found in records list" });
+    }
+
+    res.status(200).json(records);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// ================================================================================= //
+
 const getRecordsByLabID = async (req, res) => {
   try {
     const { labId } = req.params;
 
     let records = await Record.find({ labId: labId });
+
+    if (records.length == 0) {
+      return res
+        .status(404)
+        .json({ message: "No records found in records list" });
+    }
+
+    res.status(200).json(records);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+// ================================================================================= //
+
+const getRecordsByPatientID = async (req, res) => {
+  try {
+    const { patientId } = req.params;
+
+    let records = await Record.find({ patientId: patientId });
 
     if (records.length == 0) {
       return res
@@ -60,6 +96,8 @@ const getRecordsByAppointmentID = async (req, res) => {
 
 module.exports = {
   createRecord,
+  getAllRecords,
   getRecordsByLabID,
+  getRecordsByPatientID,
   getRecordsByAppointmentID,
 };
