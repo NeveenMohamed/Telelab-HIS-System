@@ -81,6 +81,38 @@ const cancelAppointment = async (req, res) => {
   }
 };
 
+// ================================================================================= //
+
+const getAppointmentByLabID = async (req, res) => {
+  try {
+    const { labId } = req.params;
+    const appointment = await Appointment.find({ labId: labId });
+    res.status(200).json(appointment);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// ================================================================================= //
+
+const updateAppointmentStatus = async (req, res) => {
+  try {
+    const { appointmentId } = req.params;
+    const appointment = await Appointment.findOneAndUpdate(
+      { _id: appointmentId },
+      req.body
+    );
+
+    if (appointment) res.status(200).json({ message: "Success", appointment });
+    else
+      res.status(404).json({
+        message: `No Appointment found for the given appointmentId`,
+      });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 const timeValidation = () => {
   const timeRegex = /^(?:[01]\d|2[0-3]):[0-5]\d$/;
   if (!timeRegex.test(time)) {
@@ -108,4 +140,6 @@ module.exports = {
   getAllAppointments,
   getAppointmentByID,
   cancelAppointment,
+  getAppointmentByLabID,
+  updateAppointmentStatus,
 };

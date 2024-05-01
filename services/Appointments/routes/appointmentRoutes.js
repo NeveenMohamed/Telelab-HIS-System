@@ -13,4 +13,8 @@ router.get(
 
 router.delete("/:appointmentId", AppointmentController.cancelAppointment);
 
+router.get("/lab/:labId", AppointmentController.getAppointmentByLabID);
+
+router.put("/:appointmentId", AppointmentController.updateAppointmentStatus);
+
 module.exports = router;
