@@ -1,6 +1,25 @@
 const Record = require("../models/Record");
 const axios = require("axios");
 
+// This function will be divided into 2 parts (HL7 message in region + database in center)
+const createRecord = async (req, res) => {
+  try {
+    const { appointmentId, labTest } = req.body;
+
+    // Create the slot only if no conflicts are found
+    const newRecord = await Record.create({
+      appointmentId,
+      labTest,
+    });
+
+    res.status(201).json({ message: "Success", newRecord: newRecord });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// ================================================================================= //
+
 const getAllRecords = async (req, res) => {
   try {
     const records = await Record.find({});
@@ -76,6 +95,7 @@ const getRecordsByAppointmentID = async (req, res) => {
 };
 
 module.exports = {
+  createRecord,
   getAllRecords,
   getRecordsByLabID,
   getRecordsByPatientID,
