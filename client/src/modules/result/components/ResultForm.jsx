@@ -76,10 +76,7 @@ const ResultForm = () => {
                   placeholder=""
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  disabled={
-                    data["user"]["role"] != "Doctor" ||
-                    Object.keys(labTest).length != 0
-                  }
+                  disabled={true}
                   name="WBC"
                   value={labTest == {} ? formik.values.WBC : labTest["WBC"]}
                 />
@@ -91,10 +88,7 @@ const ResultForm = () => {
                   placeholder=""
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  disabled={
-                    data["user"]["role"] != "Doctor" ||
-                    Object.keys(labTest).length != 0
-                  }
+                  disabled={true}
                   name="RBC"
                   value={labTest == {} ? formik.values.RBC : labTest["RBC"]}
                 />
@@ -106,10 +100,7 @@ const ResultForm = () => {
                   placeholder=""
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  disabled={
-                    data["user"]["role"] != "Doctor" ||
-                    Object.keys(labTest).length != 0
-                  }
+                  disabled={true}
                   name="HGB"
                   value={labTest == {} ? formik.values.HGB : labTest["HGB"]}
                 />
@@ -121,10 +112,7 @@ const ResultForm = () => {
                   placeholder=""
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  disabled={
-                    data["user"]["role"] != "Doctor" ||
-                    Object.keys(labTest).length != 0
-                  }
+                  disabled={true}
                   name="HCT"
                   value={labTest == {} ? formik.values.HCT : labTest["HCT"]}
                 />
@@ -146,10 +134,7 @@ const ResultForm = () => {
                   placeholder=""
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  disabled={
-                    data["user"]["role"] != "Doctor" ||
-                    Object.keys(labTest).length != 0
-                  }
+                  disabled={true}
                   name="MCV"
                   value={labTest == {} ? formik.values.MCV : labTest["MCV"]}
                 />
@@ -161,10 +146,7 @@ const ResultForm = () => {
                   placeholder=""
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  disabled={
-                    data["user"]["role"] != "Doctor" ||
-                    Object.keys(labTest).length != 0
-                  }
+                  disabled={true}
                   name="MCH"
                   value={labTest == {} ? formik.values.MCH : labTest["MCH"]}
                 />
@@ -176,10 +158,7 @@ const ResultForm = () => {
                   placeholder=""
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  disabled={
-                    data["user"]["role"] != "Doctor" ||
-                    Object.keys(labTest).length != 0
-                  }
+                  disabled={true}
                   name="MCHC"
                   value={labTest == {} ? formik.values.MCHC : labTest["MCHC"]}
                 />
@@ -191,10 +170,7 @@ const ResultForm = () => {
                   placeholder=""
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  disabled={
-                    data["user"]["role"] != "Doctor" ||
-                    Object.keys(labTest).length != 0
-                  }
+                  disabled={true}
                   name="PLT"
                   value={labTest == {} ? formik.values.PLT : labTest["PLT"]}
                 />
@@ -207,24 +183,6 @@ const ResultForm = () => {
               </Form.Group>
             </Col>
           </div>
-
-          {data["user"]["role"] == "Doctor" &&
-            Object.keys(labTest).length == 0 ? (
-            <Button
-              variant="primary"
-              type="submit"
-              style={{
-                width: "100%",
-                backgroundColor: "#C4DFDF",
-                color: "black",
-                border: "0",
-              }}
-            >
-              Submit
-            </Button>
-          ) : (
-            <></>
-          )}
         </Form>
       </Col>
     </Row>

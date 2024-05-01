@@ -24,6 +24,9 @@ const AddAppointment = () => {
             Age: "",
             Weight: "",
             Height: "",
+            Phone: "",
+            Address: "",
+            LabID: "",
             TestType: "",
             Date: "",
             Time: "",
@@ -115,6 +118,21 @@ const AddAppointment = () => {
                                 // value={labTest == {} ? formik.values.HCT : labTest["HCT"]}
                                 />
 
+                                <Form.Label>Phone</Form.Label>
+                                <Form.Control
+                                    size='lg'
+                                    type="number"
+                                    placeholder=""
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    // disabled={
+                                    //     data["user"]["role"] != "Doctor" ||
+                                    //     Object.keys(labTest).length != 0
+                                    // }
+                                    name="Phone"
+                                // value={labTest == {} ? formik.values.HCT : labTest["HCT"]}
+                                />
+
                                 {/* <div style={{ color: 'red' }}>
                             {formik.touched.username && formik.errors.username ?
                                 formik.errors.username
@@ -125,6 +143,37 @@ const AddAppointment = () => {
 
                         <Col xs={4}>
                             <Form.Group className="mb-3" controlId="formBasicPassword">
+
+                                <Form.Label>Address</Form.Label>
+                                <Form.Control
+                                    size='lg'
+                                    type="text"
+                                    placeholder=""
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    // disabled={
+                                    //     data["user"]["role"] != "Doctor" ||
+                                    //     Object.keys(labTest).length != 0
+                                    // }
+                                    name="Address"
+                                // value={labTest == {} ? formik.values.MCH : labTest["MCH"]}
+                                />
+                                <Form.Label>Lab ID</Form.Label>
+                                <Form.Control
+                                    size='lg'
+                                    type="number"
+                                    step="1"
+                                    placeholder=""
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    // disabled={
+                                    //     data["user"]["role"] != "Doctor" ||
+                                    //     Object.keys(labTest).length != 0
+                                    // }
+                                    name="LabID"
+                                // value={labTest == {} ? formik.values.MCH : labTest["MCH"]}
+                                />
+
                                 <Form.Label>Test Type</Form.Label>
                                 <Form.Select
                                     size='lg'
