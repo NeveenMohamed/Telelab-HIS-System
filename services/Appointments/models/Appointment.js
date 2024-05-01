@@ -15,7 +15,7 @@ const appointmentSchema = mongoose.Schema({
   },
   testType: {
     type: String,
-    required: [true, "Please enter the type of the test"],
+    default: "CBC",
   },
   date: {
     type: Date,

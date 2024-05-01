@@ -7,6 +7,7 @@ import axios from "../../../core/api/api";
 import { useNavigate } from "react-router-dom";
 
 const AddAppointment = () => {
+  const users = ["CBC"];
   const ResultSchema = Yup.object().shape({
     // WBC: Yup.string()
     //     .min(8, 'Username should be minimum 8 characters length')
@@ -16,6 +17,9 @@ const AddAppointment = () => {
     //     .required('Password is required'),
   });
 
+  const handleSelect = () => {
+    formik.values.TestType = "CBC";
+  };
   const navigate = useNavigate();
 
   const formik = useFormik({
@@ -33,7 +37,7 @@ const AddAppointment = () => {
     },
     validationSchema: ResultSchema,
     onSubmit: (values) => {
-      console.log(values);
+      handleSelect();
 
       axios.post("http://localhost:4000/appointments/", {
         patient: {
@@ -193,7 +197,7 @@ const AddAppointment = () => {
                   name="TestType"
                   // value={labTest == {} ? formik.values.MCV : labTest["MCV"]}
                 >
-                  <option defaultValue>Complete Blood Count</option>
+                  <option onSelect={handleSelect}>Complete Blood Count</option>
                 </Form.Select>
 
                 <Form.Label>Date</Form.Label>
