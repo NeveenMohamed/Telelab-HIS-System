@@ -1,11 +1,5 @@
 const MongoClient = require("mongodb").MongoClient;
 
-// Connection URL
-const url = "mongodb://localhost:27017";
-
-// Database Name
-const dbName = "your_database_name";
-
 var net = require("net");
 
 // Create a TCP client
@@ -13,7 +7,7 @@ const client = new net.Socket();
 
 // Connect to the server
 const PORT = 3838;
-const HOST = "154.177.209.54";
+const HOST = "41.46.96.67";
 
 client.connect(PORT, HOST, () => {
   console.log("Connected to server");
@@ -31,7 +25,7 @@ client.on("close", () => {
 });
 
 // Function to watch all collections for changes
-async function watchAllCollections() {
+async function watchAllCollections(url) {
   // Use connect method to connect to the server
   const client = new MongoClient(url, { useUnifiedTopology: true });
 
@@ -42,7 +36,7 @@ async function watchAllCollections() {
     console.log("Connected to MongoDB server");
 
     // Get the database
-    const db = client.db(dbName);
+    const db = client.db();
 
     // Get a list of all collections in the database
     const collections = await db.listCollections().toArray();

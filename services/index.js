@@ -9,12 +9,11 @@ const appointmentRoute = require("./Appointments/routes/appointmentRoutes");
 const userRoute = require("./Registeration/routes/userRoutes");
 const recordRoute = require("./EMR/routes/recordRoutes");
 const {
-  default: watchCollection,
   default: watchAllCollections,
 } = require("../client");
 
 // Connect to database
-const uri =
+const url =
   "mongodb+srv://Vena:12345@telelab.urpw51y.mongodb.net/Region?retryWrites=true&w=majority&appName=TeleLab";
 const port = 4000;
 
@@ -23,7 +22,7 @@ mongoose
   .then(() => {
     console.log("Connected to MongoDB");
     app.listen(port, () => console.log("Server up and running"));
-    watchAllCollections();
+    watchAllCollections(url);
     console.log("Listening....");
   })
   .catch((error) => {
