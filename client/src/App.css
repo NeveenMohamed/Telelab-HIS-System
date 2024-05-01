@@ -6,3 +6,19 @@ background: #C4DFDF;
 .row{
     --bs-gutter-x: 0rem !important;
 }
+
+::selection {
+    color: black;
+    background: #C4DFDF;
+  }
+
+.form-control:focus{
+    border-color: rgb(196, 223, 223) !important;
+    box-shadow: 0 0 0 .25rem rgb(196, 223, 223) !important;
+
+}
+.form-select:focus{
+    border-color: rgb(196, 223, 223) !important;
+    box-shadow: 0 0 0 .25rem rgb(196, 223, 223) !important;
+
+}

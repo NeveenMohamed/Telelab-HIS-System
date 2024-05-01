@@ -6,6 +6,7 @@ import React from "react";
 import LoginPage from "../../modules/login/pages/LoginPage";
 import BoardPage from "../../modules/board/pages/BoardPage";
 import ResultPage from "../../modules/result/pages/ResultPage";
+import AppointmentPage from "../../modules/appointment/pages/AppointmentPage";
 
 
 
@@ -31,6 +32,10 @@ class RouterClass {
     {
       path: AppRoutes.result,
       element: <ResultPage/>,
+    },
+    {
+      path: AppRoutes.addAppoinment,
+      element: <AppointmentPage/>,
     },
   ];
 

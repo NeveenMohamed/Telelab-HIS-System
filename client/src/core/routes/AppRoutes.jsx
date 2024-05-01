@@ -8,6 +8,8 @@ class AppRoutes {
   static user = "/user";
   
   static result = "/result";
+
+  static addAppoinment = "/add-appointment";
 }
 
 export default AppRoutes;

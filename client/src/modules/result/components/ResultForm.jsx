@@ -209,7 +209,7 @@ const ResultForm = () => {
           </div>
 
           {data["user"]["role"] == "Doctor" &&
-          Object.keys(labTest).length == 0 ? (
+            Object.keys(labTest).length == 0 ? (
             <Button
               variant="primary"
               type="submit"
