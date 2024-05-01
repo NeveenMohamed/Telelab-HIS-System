@@ -9,4 +9,8 @@ router.get(
   RecordController.getRecordsByAppointmentID
 );
 
+router.post("/", RecordController.createRecord);
+
+router.get("/lab/:labId", RecordController.getRecordsByLabID);
+
 module.exports = router;
