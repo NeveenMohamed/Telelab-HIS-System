@@ -30,7 +30,6 @@ const PatientInfo = () => {
             </svg>
             <div style={{ display: "flex", flexDirection: "column" }}>
               <h2>{patientInfo.name}</h2>
-              <span>ID: 1023523256</span>
             </div>
           </div>
           {/* <hr> */}
