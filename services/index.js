@@ -4,8 +4,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 
-// import axios from "../../../core/api/api";
-
+const Record = require("./EMR/models/Record")
+const Appointment = require("./Appointments/models/Appointment")
 
 const app = express();
 
@@ -55,16 +55,20 @@ async function watchAllCollections() {
 
             changeStream.on("change", (change) => {
                 console.log(`Change detected in ${collectionInfo.name} collection:, change`);
+                const operationType = change.operationType;
+                console.log(JSON.stringify(change))
                 console.log(JSON.stringify(change.fullDocument))
-
-                // Send the change data to all connected clients
-                for (const socket of sockets) {
-                    socket.write(JSON.stringify(change.fullDocument));
+                if (collectionInfo.name == 'appointments') {
+                    if (operationType == 'insert') {
+                        // Send the change data to all connected clients
+                        for (const socket of sockets) {
+                            socket.write(JSON.stringify(change.fullDocument));
+                        }
+                    }
                 }
-
                 // socket.write(JSON.stringify(change));
             });
-        });
+        }); 
     } catch (error) {
         console.error("Error connecting to MongoDB:", error);
     }
@@ -84,40 +88,40 @@ server.on('connection', (socket) => {
     // Handle data from the client
     socket.on('data', async (data) => {
         console.log('Received from client:', data.toString());
-
         // // Parse the received data as JSON
         const result = JSON.parse(data);
-        console.log(result)
+        const record = new Record(result);
 
-        axios.post("http://localhost:3000/record/", result);
+        try {
+            record.save();
+            console.log('Saved record to database');
+        } catch (error) {
+            console.error('Error saving record to database:', error);
+        }
 
-    
+        const appoint_id = record.appointmentId;
+        console.log(appoint_id);
 
-        // axios.post("http://localhost:4000/appointments/", {
-        //     patient: {
-        //       name: values.Name,
-        //       weight: values.Weight,
-        //       height: values.Height,
-        //       age: values.Age,
-        //       address: values.Address,
-        //       phone: values.Phone,
-        //     },
-        //     labId: values.LabID,
-        //     testType: values.TestType,
-        //     date: values.Date,
-        //     time: values.Time,
-        //   });
-        // // console.log("#"*50)
-        // console.log(appointmentData[0])
+        // Find the appointment in the Appointment collection based on its ID
+        const existingAppointment = await Appointment.findById(appoint_id);
 
-        // // Create a new appointment and save it in the database
-        // const appointment = new Appointment(appointmentData[0]);
-        // try {
-        //     await appointment.save();
-        //     console.log('Saved appointment to database');
-        // } catch (error) {
-        //     console.error('Error saving appointment to database:', error);
-        // }
+        // Check if the appointment exists
+        if (!existingAppointment) {
+            console.log('Appointment not found.');
+            return;
+        }
+        else {
+            console.log(existingAppointment);
+        }
+
+        // Update the status of the found appointment
+        existingAppointment.status = 2;
+
+        // Save the updated appointment
+        await existingAppointment.save();
+
+        console.log('Appointment status updated successfully:', existingAppointment);
+
     });
 
 
