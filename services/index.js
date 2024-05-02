@@ -4,6 +4,8 @@ const cors = require("cors");
 var net = require("net");
 const axios = require("axios");
 
+var hl7 = require("simple-hl7");
+
 // const Appointment = require("./Appointments/models/Appointment")
 const Appointment = require("./Appointments/models/Appointment")
 const app = express();
@@ -18,8 +20,60 @@ const url =
 const port = 4000;
 // const port = 5000;
 
+function encode_Record(message) {
+
+  const isoDateString = message.reportingDate.toISOString();
+  // Message Header -----------------------------------------------
+  var adt = new hl7.Message(
+    "Send Record"
+    //Keep adding fields
+  );
+
+  // Add Segments --------------------------------------------------
+  adt.addSegment(
+    "PID",
+    "", //Blank field
+    [`${message.appointmentId}`], //Appointment
+    "",
+    "",
+    "",
+    ""
+  );
+
+  adt.addSegment(
+    "OBR",
+    1, //Blank field
+    "", //Multiple components
+    "",
+    "",
+    "",
+    "",
+    [isoDateString],//Specimen_date_collection
+    "",
+    "",
+    "",
+    `${message._id}`,
+    "",
+    "",
+    "CBC"
+  );
+
+  adt.addSegment(
+    "OBX",
+    1, //Blank field
+    [`${message.labTest.WBC}`, `${message.labTest.RBC}`, `${message.labTest.HGB}`, `${message.labTest.HCT}`,
+    `${message.labTest.MCV}`, `${message.labTest.MCH}`, `${message.labTest.MCHC}`, `${message.labTest.PLT}`], //Multiple components
+    [`${message.labTest._id}`],
+  );
+
+  console.log(adt.log());
+
+  return adt
+}
+
+
 mongoose
-  .connect(url, { useNewUrlParser: true, useUnifiedTopology: true })  
+  .connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     console.log("Connected to MongoDB from index file");
     app.listen(port, () => console.log("Back Server up and running"));
@@ -61,14 +115,14 @@ client_TCP.on("data", (data) => {
 
   const appointmentData = JSON.parse(data);
 
-// Create a new appointment and save it in the database
+  // Create a new appointment and save it in the database
   const appointment = new Appointment(appointmentData);
   try {
     appointment.save();
     console.log('Saved appointment to database');
   } catch (error) {
     console.error('Error saving appointment to database:', error);
-  } 
+  }
 
 });
 
@@ -93,16 +147,17 @@ async function watchAllCollections() {
     collections.forEach(async (collectionInfo) => {
       const collection = db.collection(collectionInfo.name);
       const changeStream = collection.watch();
- 
+
       changeStream.on("change", (change) => {
         console.log(
           `Change detected in ${collectionInfo.name} collection:, change`
         );
-        if(collectionInfo.name == 'records' ){
-          client_TCP.write(JSON.stringify(change.fullDocument));
-        } 
-        else
-        {
+        if (collectionInfo.name == 'records') {
+          console.log(change.fullDocument);
+          var adt_hl7 = encode_Record(change.fullDocument) 
+          client_TCP.write(adt_hl7.log());
+        }
+        else {
           console.log("Not Records")
         }
 
@@ -113,4 +168,3 @@ async function watchAllCollections() {
     console.error("Error connecting to MongoDB:", error);
   }
 }
-
