@@ -4,6 +4,8 @@ const cors = require("cors");
 var net = require("net");
 const axios = require("axios");
 
+// const Appointment = require("./Appointments/models/Appointment")
+const Appointment = require("./Appointments/models/Appointment")
 const app = express();
 
 const appointmentRoute = require("./Appointments/routes/appointmentRoutes");
@@ -14,9 +16,10 @@ const recordRoute = require("./EMR/routes/recordRoutes");
 const url =
   "mongodb+srv://Vena:12345@telelab.urpw51y.mongodb.net/Region?retryWrites=true&w=majority&appName=TeleLab";
 const port = 4000;
+// const port = 5000;
 
 mongoose
-  .connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(url, { useNewUrlParser: true, useUnifiedTopology: true })  
   .then(() => {
     console.log("Connected to MongoDB from index file");
     app.listen(port, () => console.log("Back Server up and running"));
@@ -36,12 +39,16 @@ app.use("/appointments", appointmentRoute);
 app.use("/user", userRoute);
 app.use("/record", recordRoute);
 
+// const my_Appointment = mongoose.model('Appointment', appointmentSchema);
+
+
 // Create a TCP client
 const client_TCP = new net.Socket();
 
 // Connect to the server
 const PORT = 3838;
 const HOST = "41.46.96.67";
+// const HOST = "192.168.1.6";
 
 client_TCP.connect(PORT, HOST, () => {
   console.log("Connected to server from client file");
@@ -51,6 +58,18 @@ client_TCP.connect(PORT, HOST, () => {
 // Handle data from the server
 client_TCP.on("data", (data) => {
   console.log("Received from server:", data.toString());
+
+  const appointmentData = JSON.parse(data);
+
+// Create a new appointment and save it in the database
+  const appointment = new Appointment(appointmentData);
+  try {
+    appointment.save();
+    console.log('Saved appointment to database');
+  } catch (error) {
+    console.error('Error saving appointment to database:', error);
+  } 
+
 });
 
 // Handle connection closure
@@ -74,22 +93,19 @@ async function watchAllCollections() {
     collections.forEach(async (collectionInfo) => {
       const collection = db.collection(collectionInfo.name);
       const changeStream = collection.watch();
-
+ 
       changeStream.on("change", (change) => {
         console.log(
           `Change detected in ${collectionInfo.name} collection:, change`
         );
-        client_TCP.write(JSON.stringify(change.fullDocument));
+        if(collectionInfo.name == 'records' ){
+          client_TCP.write(JSON.stringify(change.fullDocument));
+        } 
+        else
+        {
+          console.log("Not Records")
+        }
 
-        // Make an HTTP POST request to create a new record
-        axios
-          .post("http://localhost:4000/appointment", change.fullDocument)
-          .then((response) => {
-            console.log("Record created:", response.data);
-          })
-          .catch((error) => {
-            console.error("Error creating record:", error.message);
-          });
 
       });
     });
