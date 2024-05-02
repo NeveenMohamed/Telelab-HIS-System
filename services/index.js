@@ -2,14 +2,13 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 var net = require("net");
-
+const axios = require("axios");
 
 const app = express();
 
 const appointmentRoute = require("./Appointments/routes/appointmentRoutes");
 const userRoute = require("./Registeration/routes/userRoutes");
 const recordRoute = require("./EMR/routes/recordRoutes");
-
 
 // Connect to database
 const url =
@@ -25,7 +24,7 @@ mongoose
     console.log("Listening....");
   })
   .catch((error) => {
-    console.log("Error:",error);
+    console.log("Error:", error);
   });
 
 // Middleware
@@ -36,8 +35,6 @@ app.use(cors());
 app.use("/appointments", appointmentRoute);
 app.use("/user", userRoute);
 app.use("/record", recordRoute);
-
-
 
 // Create a TCP client
 const client_TCP = new net.Socket();
@@ -64,26 +61,40 @@ client_TCP.on("close", () => {
 // Function to watch all collections for changes
 async function watchAllCollections() {
   try {
-      const db = mongoose.connection;
+    const db = mongoose.connection;
 
-      db.on("error", console.error.bind(console, "MongoDB connection error:"));
+    db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
-      // Get a list of all collections in the database
-      const collections = await mongoose.connection.db.listCollections().toArray();
+    // Get a list of all collections in the database
+    const collections = await mongoose.connection.db
+      .listCollections()
+      .toArray();
 
-      // Watch each collection for changes
-      collections.forEach(async (collectionInfo) => {
-          const collection = db.collection(collectionInfo.name);
-          const changeStream = collection.watch();
+    // Watch each collection for changes
+    collections.forEach(async (collectionInfo) => {
+      const collection = db.collection(collectionInfo.name);
+      const changeStream = collection.watch();
 
-          changeStream.on("change", (change) => {
-              console.log(`Change detected in ${collectionInfo.name} collection:, change`);
-              client_TCP.write(JSON.stringify(change.fullDocument));
+      changeStream.on("change", (change) => {
+        console.log(
+          `Change detected in ${collectionInfo.name} collection:, change`
+        );
+        client_TCP.write(JSON.stringify(change.fullDocument));
+
+        // Make an HTTP POST request to create a new record
+        axios
+          .post("http://localhost:4000/appointment", change.fullDocument)
+          .then((response) => {
+            console.log("Record created:", response.data);
+          })
+          .catch((error) => {
+            console.error("Error creating record:", error.message);
           });
+
       });
+    });
   } catch (error) {
-      console.error("Error connecting to MongoDB:", error);
+    console.error("Error connecting to MongoDB:", error);
   }
 }
-
 
