@@ -1,0 +1,24 @@
+/* Global Css */
+body, html{
+background: #C4DFDF;
+}
+
+.row{
+    --bs-gutter-x: 0rem !important;
+}
+
+:root {
+	--card-size: clamp(350px, 40vw, 450px);
+	--card-ar: 2 / 1;
+	--x: calc(50vw * 1);
+	--y: calc((50vh - (var(--card-size) * 0.25)) * 1);
+	--spotlight: 50vmin;
+	--backdrop: black;
+  --radius: 14;
+  --border: 3;
+  --backup-border: hsl(0 0% 10% / 0.2);
+  --size: 200;
+  --bg-spot-opacity: 0.16;
+  --border-light-opacity: 1;
+  --border-spot-opacity: 0.75;
+}

@@ -1,0 +1,5 @@
+.two-columns-display{
+    justify-content: space-between;
+    display: flex;
+    flex-direction: row;
+}
