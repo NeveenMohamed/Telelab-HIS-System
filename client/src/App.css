@@ -1,8 +1,0 @@
-/* Global Css */
-body, html{
-background: #C4DFDF;
-}
-
-.row{
-    --bs-gutter-x: 0rem !important;
-}
