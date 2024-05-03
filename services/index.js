@@ -3,6 +3,7 @@ const net = require('net');
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+var hl7 = require("simple-hl7");
 
 const Record = require("./EMR/models/Record")
 const Appointment = require("./Appointments/models/Appointment")
@@ -12,6 +13,7 @@ const app = express();
 const appointmentRoute = require("./Appointments/routes/appointmentRoutes");
 const userRoute = require("./Registeration/routes/userRoutes");
 const recordRoute = require("./EMR/routes/recordRoutes");
+const { log } = require('console');
 
 // Connect to database
 const uri =
@@ -38,6 +40,154 @@ app.use("/user", userRoute);
 app.use("/record", recordRoute);
 
 
+function encode_appointment(message) {
+
+    // Message Header -----------------------------------------------
+    var adt = new hl7.Message(
+        "Send Record",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ["SIU", "S12"], //Message_Type
+        [`${message._id}`],
+        "",
+        "2.6" //Version_ID
+        //Keep adding fields
+    );
+
+    // Add Segments --------------------------------------------------
+
+    adt.addSegment(
+        "PID",
+        "", //Blank field
+        [`${message.patient._id}`], //Appointment
+        "",
+        "",
+        ["", `${message.patient.name}`, ""],
+        "",
+        "",
+        "",
+        "",
+        "",
+        [`${message.patient.address}`],
+        "",
+        [`${message.patient.phone}`]
+    );
+
+    adt.addSegment(
+        "SCH",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "CHECKUP", //CHECKUP
+        "NORMAL", //NORMAL
+        "",
+        "",
+        [`${message.date}`, `${message.time}`],
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ["", [`${message.status}`]] //Appointments_Status
+    );
+
+    adt.addSegment(
+        "PV1",
+        "",
+        "",
+        [`${message.labId}`],
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ["", "BOOKED"] //Appointments_Status
+    );
+
+    adt.addSegment(
+        "OBX",
+        1, //Blank field
+        [`${message.patient.weight}`, `${message.patient.height}`, `${message.patient.age}`], //Multiple components
+        ""
+    );
+    return adt;
+
+}
+
+function decode_Record_from_Dict(hl7Dict) {
+    var Record_id;
+    var appointment_id;
+    var Specimen_Name;
+    var Specimen_date_collection;
+    var Result;
+    var test_id;
+
+    appointment_id = hl7Dict['PID']['Field 2'];
+
+    Specimen_Name = hl7Dict['OBR']['Field 14'];
+    Record_id = hl7Dict['OBR']['Field 11'];
+    Specimen_date_collection = hl7Dict['OBR']['Field 7'];
+
+    // Parse the OBX segment to get the result and test ID
+    var obxSegment = hl7Dict['OBX'];
+    if (obxSegment) {
+        Result = obxSegment['Field 2'].split('^');
+        test_id = obxSegment['Field 3'];
+    }
+
+    // Construct the decoded message object
+    var decoded_message = {
+        "_id": Record_id,
+        "appointmentId": appointment_id,
+        "labTest": {
+            "WBC": parseInt(Result[0]),
+            "RBC": parseInt(Result[1]),
+            "HGB": parseInt(Result[2]),
+            "HCT": parseInt(Result[3]),
+            "MCV": parseInt(Result[4]),
+            "MCH": parseInt(Result[5]),
+            "MCHC": parseInt(Result[6]),
+            "PLT": parseInt(Result[7]),
+            "_id": test_id
+        },
+        "reportingDate": Specimen_date_collection,
+        "__v": 0
+    };
+
+    return decoded_message;
+}
+
+
 // Function to watch all collections for changes
 async function watchAllCollections() {
     try {
@@ -61,6 +211,8 @@ async function watchAllCollections() {
                 if (collectionInfo.name == 'appointments') {
                     if (operationType == 'insert') {
                         // Send the change data to all connected clients
+                        var hl7 = encode_appointment(change.fullDocument);
+                        console.log(hl7.log());
                         for (const socket of sockets) {
                             socket.write(JSON.stringify(change.fullDocument));
                         }
@@ -68,7 +220,7 @@ async function watchAllCollections() {
                 }
                 // socket.write(JSON.stringify(change));
             });
-        }); 
+        });
     } catch (error) {
         console.error("Error connecting to MongoDB:", error);
     }
@@ -88,9 +240,58 @@ server.on('connection', (socket) => {
     // Handle data from the client
     socket.on('data', async (data) => {
         console.log('Received from client:', data.toString());
+
+        const result_HL7 = data.toString();
+        console.log("result_HL7");
+        console.log(result_HL7);
+
+
+        // Initialize an empty dictionary to store the parsed HL7 message
+        var hl7Dict = {};
+
+        // Split the message into segments
+        var segments = result_HL7.split("\n");
+        console.log("segments");
+        console.log(segments);
+
+        // Iterate through each segment
+        segments.forEach(function (segment) {
+            // Split each segment into fields
+            var fields = segment.split("|");
+
+            // Check the segment type
+            var segmentType = fields[0];
+
+            // Initialize an empty dictionary for the segment
+            var segmentDict = {};
+
+            // Add each field to the segment dictionary
+            for (var i = 1; i < fields.length; i++) {
+                segmentDict["Field " + i] = fields[i];
+            }
+
+            // Add the segment dictionary to the main dictionary
+            hl7Dict[segmentType] = segmentDict;
+        });
+        console.log("hl7Dict");
+        console.log(hl7Dict);
+
+        // Decode the HL7 message from the dictionary format
+        var decodedMessage = decode_Record_from_Dict(hl7Dict);
+
+        console.log("decodedMessage");
+        console.log(decodedMessage);
+        // console.log('HL7');
+        // console.log(result_HL7);
+        // 
+        // function to decode result_HL7 , input :result_HL7 , output : result
+        // my_decoded_message = decode_Record(result_HL7)
+        // console.log('my_decoded_message');
+        // console.log(my_decoded_message);
+
         // // Parse the received data as JSON
-        const result = JSON.parse(data);
-        const record = new Record(result);
+        // const result = JSON.parse(decodedMessage);
+        const record = new Record(decodedMessage);
 
         try {
             record.save();
